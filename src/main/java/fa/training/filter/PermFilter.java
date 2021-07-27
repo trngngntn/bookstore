@@ -7,7 +7,7 @@ import java.io.IOException;
 
 @WebFilter(filterName = "PermFilter")
 public class PermFilter implements Filter {
-    private static final String permit[] = {"assets", "login", "register"};
+    private static final String[] permit = {"assets", "login", "register"};
     public void init(FilterConfig config) throws ServletException {
     }
 
@@ -31,7 +31,6 @@ public class PermFilter implements Filter {
             valid = true;
         }
         if(valid){
-            System.out.println(httpRequest.getCookies());
             chain.doFilter(request, response);
         } else {
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/login");

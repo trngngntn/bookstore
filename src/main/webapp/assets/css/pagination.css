@@ -1,0 +1,15 @@
+#page-nav{
+    text-align: center;
+}
+
+#page-nav-entry > *{
+    display: inline-block;
+    line-height: 2rem;
+    width: 2rem;
+    border-radius: var(--border-radius);
+}
+
+#page-nav-entry > .current{
+    background-color: var(--accent);
+    color: var(--color-inverted);
+}

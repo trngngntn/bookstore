@@ -1,0 +1,41 @@
+nav{
+    display: inline-block;
+    background-color: var(--main-bkgnd-darker);
+    position: fixed;
+    height: 100%;
+    padding: .5rem;
+    border-right: var(--border);
+    width: 20%;
+}
+
+.nav-category{
+    margin-bottom: 2rem;
+}
+
+.nav-category-label{
+    height: 2rem;
+    font-weight: 500;
+    line-height: 2rem;
+    padding: 0 .5rem;
+}
+
+.nav-entry{
+    height: 2rem;
+    border-radius: var(--border-radius);
+    padding: 0 .25rem;
+    vertical-align: top;
+    font-size: 0;
+    margin: .25rem 0;
+}
+
+.nav-entry .material-icons-round{
+    line-height: 2rem;
+    margin: 0 .5rem;
+    vertical-align: top;
+}
+
+.nav-entry-label{
+    display: inline-block;
+    padding-top: .42rem;
+    vertical-align: top;
+}

@@ -1,0 +1,29 @@
+form{
+}
+form > table > tbody > tr > td:first-child{
+    width: 25%;
+    font-weight: 400;
+}
+
+form > table > tbody > tr > td:last-child{
+    padding: 0;
+}
+
+form > table > tbody > tr > td > input[type="text"],
+form > table > tbody > tr > td > input[type="password"],
+form > table > tbody > tr > td > select
+{
+    width: 100%;
+    border: none;
+    border-radius: calc(var(--border-radius) - 1px);
+}
+
+form > table > tbody > tr > td > input:focus{
+    font-style: italic;
+    color: var(--overlay-darker);
+    z-index: 5;
+}
+
+form > table > tbody > tr:has(input:focus){
+    color: red;
+}

@@ -1,0 +1,114 @@
+input, button, select{
+    height: 2rem;
+    border-radius: var(--border-radius);
+    border: var(--border);
+    padding: 0 .5rem;
+    transition: border 0.2s, box-shadow 0.2s;
+    background-color: var(--main-bkgnd-light);
+}
+
+input:focus, button:focus, select:focus{
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 3px 0 var(--accent);
+}
+
+input[type="button"], input[type="reset"], button, select{
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.2s;
+}
+
+input[type="button"]:hover, input[type="reset"]:hover, button:hover, select:hover{
+    background-color: var(--overlay-dark);
+}
+
+input[type="button"]:active, input[type="reset"]:active, button:active{
+    background-color: var(--overlay-darker);
+}
+
+input::placeholder{
+    font-style: italic;
+    color: var(--overlay-darker);
+}
+
+.icon-button{
+    padding: 0 calc((2rem - 24px)/2);
+}
+.icon-button > .material-icons-round{
+    line-height: calc(2rem - 2px);
+}
+
+.icon-button > .button-label{
+    display: inline-block;
+    padding-top: .36rem;
+    padding-right: .25rem;
+    vertical-align: top;
+}
+
+.icon-button:hover{
+
+}
+
+.radio-btn-cont{
+    display: inline-block;
+    height: 2rem;
+    padding: 0 0.5rem;
+    vertical-align: top;
+    cursor: pointer;
+}
+.radio-btn-cont > .radio-btn{
+    display: inline-block;
+    height: 1rem;
+    width: 1rem;
+    border: var(--border);
+    border-radius: 50%;
+    transition: background-color 0.2s, border 0.2s;
+    margin-top: calc(.5rem - 1px);
+}
+
+.radio-btn-cont > input[type="radio"]{
+    display: none;
+}
+
+.radio-btn-cont > .radio-btn-label{
+    line-height: 2rem;
+    vertical-align: top;
+}
+
+.radio-btn-cont > input[type="radio"]:hover ~ .radio-btn{
+    background-color: var(--overlay-dark);
+}
+
+.radio-btn-cont > input[type="radio"]:checked ~ .radio-btn{
+    background-color: var(--accent);
+    border-color: var(--accent);
+}
+
+.radio-btn-cont > input[type="radio"]:active ~ .radio-btn{
+    background-color: var(--accent-active);
+    border-color: var(--accent-active);
+}
+
+.radio-btn-cont > input[type="radio"]:checked ~ .radio-btn > .radio-btn-dot{
+    background-color: var(--color-inverted);
+    height: .5rem;
+    width: .5rem;
+    border-radius: 50%;
+    margin: calc(0.25rem - 1px);
+}
+
+#search-area{
+    padding-right: calc(6px + .5rem);
+    width: 100%;
+    padding-right: 2.5rem;
+}
+
+#search-button{
+    position: absolute;
+    right: 0;
+}
+
+select > option:disabled{
+    color: var(--overlay-darker);
+}

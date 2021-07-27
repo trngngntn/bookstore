@@ -36,6 +36,7 @@ public class HelloServlet extends HttpServlet {
             e.printStackTrace();
             request.setAttribute("dbMesg", "Failed!");
         }
+        DBConnectionPool.release(dbConn);
         request.getRequestDispatcher("jsp/testdb.jsp").forward(request, response);
     }
 

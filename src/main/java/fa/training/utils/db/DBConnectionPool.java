@@ -31,7 +31,7 @@ public class DBConnectionPool {
             freeConn.remove(0);
         } else if(busyConn.size() < MAXIMUM_CONCURRENT_CONN){
             conn = createConnection();
-            System.out.println("DBPool: Create new connection, total: " + (freeConn.size() + busyConn.size()));
+            System.out.println("DBPool: Create new connection, total: " + (freeConn.size() + busyConn.size() + 1));
         } else {
             System.out.println("DBPool: Wait for connection");
             CompletableFuture<DBConnection> cf = CompletableFuture.supplyAsync(() -> waitForConnection());

@@ -1,0 +1,40 @@
+header{
+    width: 80%;
+    position: absolute;
+    right: 0;
+    height: 4rem;
+    background-color: var(--main-bkgnd);
+    border-bottom: var(--border);
+    padding: 0 2rem;
+    font-size: 0;
+}
+header > *{
+    display: inline-block;
+}
+
+header > .align-right{
+    right: 1.75rem;
+}
+
+#page-title{
+    padding-top: .25rem;
+    font-size: 1.75rem;
+    font-weight: 400;
+}
+#site-title{
+    color: #AAA;
+}
+
+.header-button{
+    display: inline-block;
+    vertical-align: top;
+    margin: .5rem .25rem;
+    padding: 0 .5rem;
+    border-radius: var(--border-radius);
+}
+
+.header-button > *{
+    display: inline-block !important;
+    vertical-align: top;
+    line-height: 3rem !important;
+}
