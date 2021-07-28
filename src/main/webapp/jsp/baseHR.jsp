@@ -13,16 +13,9 @@
 <body onload="initPage()">
 <jsp:include page="common/common-header.jsp" />
 <nav>
-    <div class="nav-category">
-        <div class="nav-category-label">Employee Manager</div>
-        <div class="nav-entry clickable">
-            <i class="material-icons-round">list</i>
-            <span class="nav-entry-label">Employee list</span>
-        </div>
-        <div class="nav-entry clickable" onclick="changePage('createEmployee')">
-            <i class="material-icons-round">person_add_alt</i>
-            <span class="nav-entry-label">Create employee</span>
-        </div>
+    <div class="nav-entry" onclick="//changePage('<%= request.getContextPath()%>/car', 'Car Manager')">
+        <i class="material-icons-round">people</i>
+        <span class="nav-entry-label">Employee Manager</span>
     </div>
 </nav>
 <main id="main">
