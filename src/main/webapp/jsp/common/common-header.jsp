@@ -14,9 +14,9 @@
     <div class="align-right">
         <div class="header-button clickable">
             <i class="material-icons-round">account_circle</i>
-            <span class="button-label">Hello</span>
+            <span class="button-label">Welcome</span>
         </div>
-        <div class="header-button clickable">
+        <div class="header-button clickable" onclick="window.location.href='<%=request.getContextPath()%>/logout'">
             <i class="material-icons-round">logout</i>
             <span class="button-label">Log Out</span>
         </div>

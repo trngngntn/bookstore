@@ -76,6 +76,10 @@ input::placeholder{
     vertical-align: top;
 }
 
+.radio-btn-cont > .radio-btn{
+    margin-right: .5rem;
+}
+
 .radio-btn-cont > input[type="radio"]:hover ~ .radio-btn{
     background-color: var(--overlay-dark);
 }

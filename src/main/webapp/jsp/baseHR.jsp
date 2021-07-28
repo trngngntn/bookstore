@@ -10,7 +10,7 @@
 <head>
     <jsp:include page="common/common-head.jsp"/>
 </head>
-<body>
+<body onload="initPage()">
 <jsp:include page="common/common-header.jsp" />
 <nav>
     <div class="nav-category">

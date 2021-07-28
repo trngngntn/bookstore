@@ -11,6 +11,9 @@ form > table > tbody > tr > td:last-child{
 
 form > table > tbody > tr > td > input[type="text"],
 form > table > tbody > tr > td > input[type="password"],
+form > table > tbody > tr > td > input[type="date"],
+form > table > tbody > tr > td > input[type="number"],
+form > table > tbody > tr > td > input[type="time"],
 form > table > tbody > tr > td > select
 {
     width: 100%;
@@ -26,4 +29,8 @@ form > table > tbody > tr > td > input:focus{
 
 form > table > tbody > tr:has(input:focus){
     color: red;
+}
+
+form > table > tbody > tr > td > div{
+    padding: 0 .5rem;
 }

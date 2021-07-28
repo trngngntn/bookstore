@@ -1,6 +1,8 @@
 package fa.training.servlet;
 
+import fa.training.dao.CarDAO;
 import fa.training.dao.EmployeeDAO;
+import fa.training.entity.Car;
 import fa.training.entity.Employee;
 
 import javax.servlet.*;
@@ -19,24 +21,23 @@ public class CarServlet extends BaseServlet {
         if (id == -1) { //no id --> view list
             String keyword = request.getParameter("keyword");
             int index = getIndex(request);
-            List<Employee> employeeList = null;
+            List<Car> carList = null;
 
             if (index == -1) {
-                EmployeeDAO employeeDAO = new EmployeeDAO();
+                CarDAO carDAO = new CarDAO();
                 if (keyword == null || keyword.equals("")) {
-                    employeeList = employeeDAO.get(index);
+                    carList = carDAO.get(index);
                 } else { //have keyword -> search
-                    employeeList = employeeDAO.search(keyword, index);
+                    carList = carDAO.search(keyword, index);
                 }
             } else {
 
             }
 
-            request.setAttribute("resultList", employeeList);
-            forwardToJsp(request, response, "employeeMgr/list-employee.jsp");
+            request.setAttribute("resultList", carList);
+            forwardToJsp(request, response, "carMgr/list-car.jsp");
         } else { //have id --> view detail
-            System.out.println("TO VIEW");
-            forwardToJsp(request, response, "employeeMgr/view-employee.jsp");
+            forwardToJsp(request, response, "carMgr/view-car.jsp");
         }
 
 

@@ -1,0 +1,7 @@
+#form-login{
+    width: 500px;
+    margin: 5rem calc(50vw - 250px);
+}
+#usr-input, #pwd-input, #login-btn {
+    width: 100%;
+}

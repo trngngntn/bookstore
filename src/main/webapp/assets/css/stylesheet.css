@@ -49,7 +49,6 @@ main{
     left: 20%;
     width: 80%;
     height: calc(100vh - 4rem);
-    padding: 2rem;
     display: inline-block;
     vertical-align: top;
     text-align: center;
@@ -59,17 +58,28 @@ main{
 .view{
     position: absolute;
     left: 0;
-    height: 100vh;
     transition: left .8s cubic-bezier(.36,.58,.6,1);
     z-index: 10;
+    height: calc(100vh - 4rem);
 }
 #add-view, #edit-view{
-    margin: 0 12.5%;
-    width: 75%;
+    padding: 2rem 12.5%;
+    width: 100%;
 }
 #list-view{
-    margin: 0 2rem;
-    width: calc(100% - 4rem);
+    padding: 2rem 4rem;
+    width: 100%;
+}
+.hide-top{
+    top: -100%;
+    transition: top .8s cubic-bezier(.36,.58,.6,1), z-index 0.8s step-end;
+    z-index: -10;
+}
+.on-top{
+    top: 0;
+    background-color: var(--main-bkgnd);
+    transition: top .8s cubic-bezier(.36,.58,.6,1);
+    z-index: 10;
 }
 .hide-right{
     left: 100%;

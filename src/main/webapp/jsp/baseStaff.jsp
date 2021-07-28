@@ -10,70 +10,35 @@
 <head>
     <jsp:include page="common/common-head.jsp"/>
 </head>
-<body>
-<header></header>
+<body onload="initPage()">
+<jsp:include page="common/common-header.jsp"/>
 <nav>
-    <div class="nav-category">
-        <div class="nav-category-label">Car Manager</div>
-        <div class="nav-entry clickable">
-            <i class="material-icons-round">directions_car</i>
-            <span class="nav-entry-label">Car list</span>
-        </div>
-        <div class="nav-entry clickable" onclick="changePage('addCar')">
-            <i class="material-icons-round">add</i>
-            <span class="nav-entry-label">Add car</span>
-        </div>
+    <div class="nav-entry clickable" onclick="changePage('<%= request.getContextPath()%>/car', 'Car Manager')">
+        <i class="material-icons-round">directions_car</i>
+        <span class="nav-entry-label">Car Manager</span>
     </div>
 
-    <div class="nav-category">
-        <div class="nav-category-label">Booking Office Manager</div>
-        <div class="nav-entry clickable" onclick="changePage('listBookingOffice')">
-            <i class="material-icons-round">apartment</i>
-            <span class="nav-entry-label">Booking office list</span>
-        </div>
-        <div class="nav-entry clickable" onclick="changePage('addBookingOffice')">
-            <i class="material-icons-round">add</i>
-            <span class="nav-entry-label">Add booking office</span>
-        </div>
+    <div class="nav-entry clickable" onclick="changePage('<%= request.getContextPath()%>/bookingOffice', 'Booking Office Manager')">
+        <i class="material-icons-round">apartment</i>
+        <span class="nav-entry-label">Booking Office Manager</span>
     </div>
 
-    <div class="nav-category">
-        <div class="nav-category-label">Parking Lot Manager</div>
-        <div class="nav-entry clickable" onclick="changePage('addParkingLot')">
-            <i class="material-icons-round">local_parking</i>
-            <span class="nav-entry-label">Parking lot list</span>
-        </div>
-        <div class="nav-entry clickable" onclick="changePage('addParkingLot')">
-            <i class="material-icons-round">add</i>
-            <span class="nav-entry-label">Add parking lot</span>
-        </div>
+    <div class="nav-entry clickable" onclick="changePage('<%= request.getContextPath()%>/parkingLot', 'Parking Lot Manager')">
+        <i class="material-icons-round">local_parking</i>
+        <span class="nav-entry-label">Parking Lot Manager</span>
     </div>
 
-    <div class="nav-category">
-        <div class="nav-category-label">Trip Manager</div>
-        <div class="nav-entry clickable" onclick="changePage('listTrip')">
-            <i class="material-icons-round">commute</i>
-            <span class="nav-entry-label">Trip list</span>
-        </div>
-        <div class="nav-entry clickable" onclick="changePage('addTrip')">
-            <i class="material-icons-round">add</i>
-            <span class="nav-entry-label">Add trip</span>
-        </div>
+    <div class="nav-entry clickable" onclick="changePage('<%= request.getContextPath()%>/trip', 'Trip Manager')">
+        <i class="material-icons-round">commute</i>
+        <span class="nav-entry-label">Trip Manager</span>
     </div>
 
-    <div class="nav-category">
-        <div class="nav-category-label">Ticket Manager</div>
-        <div class="nav-entry clickable">
-            <i class="material-icons-round">confirmation_number</i>
-            <span class="nav-entry-label">Ticket list</span>
-        </div>
-        <div class="nav-entry clickable" onclick="changePage('addTicker')">
-            <i class="material-icons-round">add</i>
-            <span class="nav-entry-label">Add ticket</span>
-        </div>
+    <div class="nav-entry clickable" onclick="changePage('<%= request.getContextPath()%>/ticket', 'Ticket Manager')">
+        <i class="material-icons-round">confirmation_number</i>
+        <span class="nav-entry-label">Ticket Manager</span>
     </div>
 </nav>
-<main>
+<main id="main">
     <jsp:include page="${page}"/>
 </main>
 <footer></footer>

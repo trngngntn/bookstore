@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: wallius
-  Date: 7/22/21
-  Time: 11:22 PM
+  Date: 7/28/21
+  Time: 8:05 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -28,17 +28,17 @@
         <table>
             <thead>
             <tr>
+                <th>No</th>
+                <th>Trip</th>
                 <th>License plate</th>
-                <th>Type</th>
-                <th>Color</th>
-                <th>Company</th>
-                <th>Parking Lot</th>
+                <th>Customer</th>
+                <th>Booking time</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            <%--<c:forEach items="${resultList}" var="item">
-                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}')">
+            <%--c:forEach items="${resultList}" var="item">
+                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/office/${item.id}', document.title)">
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>
@@ -54,45 +54,45 @@
                     </td>
                     <td></td>
                 </tr>
-            </c:forEach>--%>
+            </c:forEach--%>
             <tr>
+                <td>1</td>
+                <td>Trip 1</td>
                 <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 1</td>
+                <td>Customer name</td>
+                <td>00:00</td>
                 <td></td>
             </tr>
             <tr>
+                <td>1</td>
+                <td>Trip 1</td>
                 <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 2</td>
+                <td>Customer name</td>
+                <td>00:00</td>
                 <td></td>
             </tr>
             <tr>
+                <td>1</td>
+                <td>Trip 1</td>
                 <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 3</td>
+                <td>Customer name</td>
+                <td>00:00</td>
                 <td></td>
             </tr>
             <tr>
+                <td>1</td>
+                <td>Trip 1</td>
                 <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 4</td>
+                <td>Customer name</td>
+                <td>00:00</td>
                 <td></td>
             </tr>
             <tr>
+                <td>1</td>
+                <td>Trip 1</td>
                 <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 5</td>
+                <td>Customer name</td>
+                <td>00:00</td>
                 <td></td>
             </tr>
             </tbody>
@@ -100,4 +100,4 @@
         <jsp:include page="../common/common--pagination.jsp"></jsp:include>
     </div>
 </div>
-<jsp:include page="add-car.jsp" />
+<jsp:include page="add-ticket.jsp" />
