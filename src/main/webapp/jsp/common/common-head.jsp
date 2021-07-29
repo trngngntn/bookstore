@@ -14,4 +14,5 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <script src="<%= request.getContextPath()%>/assets/js/script.js"></script>
+<script src="<%= request.getContextPath()%>/assets/js/validate.js"></script>
 <title>${pageTitle}</title>

@@ -1,15 +1,13 @@
 package fa.training.dao;
 
 import fa.training.entity.Car;
+import fa.training.meta.CarMeta;
 
 import java.util.List;
 
-public class CarDAO {
-    public List<Car> get(int index) {
-        return null;
-    }
+public class CarDAO extends BaseDAO<Car>{
 
-    public List<Car> search(String keyword, int index) {
-        return null;
+    public CarDAO() {
+        super(CarMeta.class);
     }
 }

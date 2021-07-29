@@ -1,12 +1,22 @@
 package fa.training.entity;
 
-public class ParkingLot {
+import fa.training.meta.ParkingLotMeta;
+
+public class ParkingLot extends BaseEntity{
+    @Override
+    public Class getMeta() {
+        return ParkingLotMeta.class;
+    }
+
     private int id;
     private String name;
     private int placeId;
     private double area;
     private double price;
     private boolean status;
+
+    public ParkingLot() {
+    }
 
     public ParkingLot(int id, String name, int placeId, double area, double price, boolean status) {
         this.id = id;
@@ -47,5 +57,29 @@ public class ParkingLot {
 
     public boolean getStatus() {
         return status;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPlaceId(int placeId) {
+        this.placeId = placeId;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

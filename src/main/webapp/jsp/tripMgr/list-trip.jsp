@@ -38,72 +38,20 @@
             </tr>
             </thead>
             <tbody>
-            <%--c:forEach items="${resultList}" var="item">
-                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/office/${item.id}', document.title)">
+            <c:forEach items="${resultList}" var="item">
+                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/trip/${item.id}')">
                     <td>${item.id}</td>
-                    <td>${item.name}</td>
-                    <td>
-                        <c:forEach items="${placeList}" var="place">
-                            <c:if test="${item.placeId eq place.id}">${place.name}</c:if>
-                        </c:forEach>
-                    </td>
-                    <td>${item.area}</td>
-                    <td>${item.price}</td>
-                    <td>
-                        <c:if test="${item.status eq true}">Occupied</c:if>
-                        <c:if test="${item.status eq false}">Blank</c:if>
-                    </td>
+                    <td>${item.destination}</td>
+                    <td>${item.departureTime}</td>
+                    <td>${item.driver}</td>
+                    <td>${item.carType}</td>
+                    <td>${item.bookedTicket}</td>
                     <td></td>
                 </tr>
-            </c:forEach--%>
-            <tr>
-                <td>1</td>
-                <td>Some place</td>
-                <td>00:00</td>
-                <td>Driver name</td>
-                <td>Van</td>
-                <td>0/99</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Some place</td>
-                <td>00:00</td>
-                <td>Driver name</td>
-                <td>Van</td>
-                <td>0/99</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Some place</td>
-                <td>00:00</td>
-                <td>Driver name</td>
-                <td>Van</td>
-                <td>0/99</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Some place</td>
-                <td>00:00</td>
-                <td>Driver name</td>
-                <td>Van</td>
-                <td>0/99</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Some place</td>
-                <td>00:00</td>
-                <td>Driver name</td>
-                <td>Van</td>
-                <td>0/99</td>
-                <td></td>
-            </tr>
+            </c:forEach>
             </tbody>
         </table>
-        <jsp:include page="../common/common--pagination.jsp"></jsp:include>
+        <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
 <jsp:include page="add-trip.jsp" />

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
     <div class="bar-action">
         <button class="icon-button align-left" onclick="toAdd()">
@@ -37,67 +37,27 @@
             </tr>
             </thead>
             <tbody>
-            <%--<c:forEach items="${resultList}" var="item">
-                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}')">
-                    <td>${item.id}</td>
-                    <td>${item.name}</td>
+            <c:forEach items="${resultList}" var="item">
+                <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/car/${item.licensePlate}')">
+                    <td>${item.licensePlate}</td>
+                    <td>${item.type}</td>
+                    <td>${item.color}</td>
                     <td>
-                        <c:forEach items="${placeList}" var="place">
-                            <c:if test="${item.placeId eq place.id}">${place.name}</c:if>
+                        <c:forEach items="${officeList}" var="office">
+                            <c:if test="${item.officeId eq office.id}">${office.name}</c:if>
                         </c:forEach>
                     </td>
-                    <td>${item.area}</td>
-                    <td>${item.price}</td>
                     <td>
-                        <c:if test="${item.status eq true}">Occupied</c:if>
-                        <c:if test="${item.status eq false}">Blank</c:if>
+                        <c:forEach items="${parkingLotList}" var="parkingLot">
+                            <c:if test="${item.parkingLotId eq parkingLot.id}">${parkingLot.name}</c:if>
+                        </c:forEach>
                     </td>
                     <td></td>
                 </tr>
-            </c:forEach>--%>
-            <tr>
-                <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 1</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 2</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 3</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 4</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>00A - 000.00</td>
-                <td>Manufacturer</td>
-                <td>Red</td>
-                <td>Company 1</td>
-                <td>Parking lot 5</td>
-                <td></td>
-            </tr>
+            </c:forEach>
             </tbody>
         </table>
-        <jsp:include page="../common/common--pagination.jsp"></jsp:include>
+        <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
-<jsp:include page="add-car.jsp" />
+<jsp:include page="add-car.jsp"/>

@@ -1,46 +1,33 @@
 package fa.training.servlet;
 
-import fa.training.dao.CarDAO;
-import fa.training.dao.EmployeeDAO;
-import fa.training.entity.Car;
-import fa.training.entity.Employee;
+import fa.training.dao.BookingOfficeDAO;
+import fa.training.dao.ParkingLotDAO;
+import fa.training.enumeration.ResultFilter;
+import fa.training.meta.CarMeta;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
-import java.util.List;
 
 public class CarServlet extends BaseServlet {
+    @Override
+    protected ResultFilter getDefaultResultFilter() {
+        return ResultFilter.NAME;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         setTitle(request, "Car Manager");
         setBaseJspPath("baseStaff.jsp");
-        int id = getId(request);
-
-        if (id == -1) { //no id --> view list
-            String keyword = request.getParameter("keyword");
-            int index = getIndex(request);
-            List<Car> carList = null;
-
-            if (index == -1) {
-                CarDAO carDAO = new CarDAO();
-                if (keyword == null || keyword.equals("")) {
-                    carList = carDAO.get(index);
-                } else { //have keyword -> search
-                    carList = carDAO.search(keyword, index);
-                }
-            } else {
-
-            }
-
-            request.setAttribute("resultList", carList);
-            forwardToJsp(request, response, "carMgr/list-car.jsp");
-        } else { //have id --> view detail
-            forwardToJsp(request, response, "carMgr/view-car.jsp");
+        try{
+            BookingOfficeDAO bookingOfficeDAO = new BookingOfficeDAO();
+            request.setAttribute("officeList", bookingOfficeDAO.getAllName());
+            ParkingLotDAO parkingLotDAO = new ParkingLotDAO();
+            request.setAttribute("parkingLotList", parkingLotDAO.getAllName());
+            doGetBase(request, response, CarMeta.class);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
     }
 
     @Override

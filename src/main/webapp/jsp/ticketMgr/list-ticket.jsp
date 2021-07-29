@@ -97,7 +97,7 @@
             </tr>
             </tbody>
         </table>
-        <jsp:include page="../common/common--pagination.jsp"></jsp:include>
+        <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
 <jsp:include page="add-ticket.jsp" />

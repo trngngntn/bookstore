@@ -1,7 +1,7 @@
 var id = 0;
 
 function initPage(){
-    if(id == 0){
+    if(id === 0){
         if(window.history.state == null){
             window.history.replaceState({id: id, url: window.location.href, title: document.title} , "");
         } else {
@@ -11,6 +11,7 @@ function initPage(){
 }
 
 function changePage(url, title){
+    if(title == null) document.title;
     window.history.pushState({id: ++id, url: window.location.origin + url, title: title} , "", url);
     document.title = title;
     document.getElementById("page-title").innerHTML = title;
@@ -55,6 +56,14 @@ function updatePage(newContent, type){
     onView.className = type == 0?"view hide-left":"view hide-right";
 }
 
+function updatePageSearch(newContent){
+    const main = document.getElementById("main");
+    main.innerHTML = "";
+    const newPage = new DOMParser().parseFromString(newContent, 'text/html').getElementsByTagName("BODY")[0];
+    let newView = newPage.firstChild;
+    main.appendChild(newView);
+}
+
 function loadPage(url, type){
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -63,6 +72,17 @@ function loadPage(url, type){
         }
     };
     xhr.open("GET", `${url}?raw`, true);
+    xhr.send();
+}
+
+function loadPageSearch(url){
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            updatePageSearch(xhr.responseText);
+        }
+    };
+    xhr.open("GET", `${url}&raw`, true);
     xhr.send();
 }
 
@@ -108,4 +128,11 @@ function submitAddForm(){
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     //xhr.setRequestHeader("Content-Length", countParameter(formData).toString());
     xhr.send(buildParameter(formData));
+}
+
+function querySearch(){
+    const searchValue = document.getElementById("search-area").value;
+    let url = `${window.location.pathname}?keyword=${searchValue}`;
+    window.history.pushState({id: ++id, url: window.location.origin + url, title: document.title} , "",url);
+    loadPageSearch(url);
 }
