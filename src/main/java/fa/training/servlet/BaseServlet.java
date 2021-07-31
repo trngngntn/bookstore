@@ -1,22 +1,27 @@
 package fa.training.servlet;
 
+import com.google.gson.*;
+import fa.training.dao.BaseDAO;
 import fa.training.entity.BaseEntity;
-import fa.training.enumeration.ResultFilter;
 import fa.training.meta.Meta;
+import fa.training.utils.db.DBException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.List;
 
-public abstract class BaseServlet<T extends BaseEntity> extends HttpServlet {
+public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
     private String baseJspPath;
     private final static String JSP_ROOT = "/jsp/";
+    protected String addFormTitle = "Add";
+    protected String editFormTitle = "Detail";
 
-    protected abstract ResultFilter getDefaultResultFilter();
+    public abstract Class<? extends Meta> getMeta();
+
+    protected abstract Meta getDefaultFilter();
 
     protected void setBaseJspPath(String path) {
         baseJspPath = path;
@@ -72,16 +77,16 @@ public abstract class BaseServlet<T extends BaseEntity> extends HttpServlet {
      * @param request HTTP request to extract filter
      * @return
      */
-    protected ResultFilter[] getResultFilter(HttpServletRequest request) {
+    protected Meta[] getFilter(HttpServletRequest request) throws Exception {
         String[] filter = request.getParameterValues("filter");
         if (filter == null) {
-            return new ResultFilter[]{getDefaultResultFilter()};
+            return new Meta[]{getDefaultFilter()};
         } else {
-            ResultFilter[] resultFilter = new ResultFilter[filter.length];
+            Meta[] metaFilter = new Meta[filter.length];
             for (int i = 0; i < filter.length; i++) {
-                resultFilter[i] = ResultFilter.getResultFilter(filter[i]);
+                metaFilter[i] = (Meta) getMeta().getDeclaredMethod("getMeta", String.class).invoke(null, filter[i]);
             }
-            return resultFilter;
+            return metaFilter;
         }
     }
 
@@ -92,103 +97,166 @@ public abstract class BaseServlet<T extends BaseEntity> extends HttpServlet {
     protected void forwardToJsp(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
         if (request.getParameter("raw") != null) { // does not include template
             request.getRequestDispatcher(JSP_ROOT + path).forward(request, response);
-        } else if (request.getParameter("json") != null) {
-            // return result as JSON
+        } else if (request.getParameter("json") != null) { // return result as JSON
+            response.getWriter().print("unsupported");
         } else { // include template
             request.setAttribute("page", path);
             request.getRequestDispatcher(JSP_ROOT + baseJspPath).forward(request, response);
         }
     }
 
+    protected void doAfterForwardToList(HttpServletRequest request) throws Exception {
+    }
+
+    protected void doAfterForwardToView(HttpServletRequest request) throws Exception {
+    }
+
     protected void forwardToServlet(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
         request.getRequestDispatcher(path).forward(request, response);
     }
 
-    @SuppressWarnings("unchecked")
-    protected void doGetBase(HttpServletRequest request, HttpServletResponse response, Class metaClass) throws Exception {
-        System.out.println("Templating");
-        Class generic = (Class) metaClass.getDeclaredMethod("getEntityClass").invoke(null);
-        Class genericDAO = (Class) metaClass.getDeclaredMethod("getDAOClass").invoke(null);
-
-        Object genericDAOInstance = genericDAO.getDeclaredConstructor().newInstance();
-        Object id = getId(request, ((Meta[]) (metaClass.getDeclaredMethod("values")).invoke(null))[0]);
-
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try {
+            //extract generic class name from meta
+            String genericClassName = ((Class<T>) getMeta().getDeclaredMethod("getEntityClass").invoke(null)).getSimpleName();
+            final String classNameUncapitalize = genericClassName.substring(0, 1).toLowerCase() + genericClassName.substring(1);
+
+            //create an instance of DAO class
+            BaseDAO<T> genericDAOInstance = (BaseDAO<T>) ((Class<?>) getMeta().getDeclaredMethod("getDAOClass")
+                    .invoke(null)).getDeclaredConstructor().newInstance();
+
+            //extract id
+            Meta keyMeta = ((Meta[]) (getMeta().getDeclaredMethod("values")).invoke(null))[0];
+            Object id = getId(request, keyMeta);
+
+            //set attributes for form displaying
+            request.setAttribute("formPage", String.format("../%1$sMgr/form-%1$s.jsp", classNameUncapitalize));
+            request.setAttribute("actionPath", request.getContextPath() + "/" + classNameUncapitalize);
+
             if (id == null) { //no id --> view list
                 String[] keyword = request.getParameterValues("keyword");
-                ResultFilter[] filter = getResultFilter(request);
                 int index = getIndex(request);
 
-                List<T> resultList;
+                //get filter for result
+                Meta[] filter = getFilter(request);
+
+                List<T> resultList = null;
 
                 if (index != -1) {
-                    Method getTotalPageMethod;
-                    try {
-                        getTotalPageMethod = genericDAO.getDeclaredMethod("getTotalPage");
-                    } catch (NoSuchMethodException e) {
-                        getTotalPageMethod = genericDAO.getSuperclass().getDeclaredMethod("getTotalPage");
-                    }
+                    int maxPage;
 
-                    Integer maxPage = (Integer) getTotalPageMethod.invoke(genericDAOInstance);
-                    if (index > maxPage) { //out of range
+                    if (keyword == null) { //no keyword -> full list
+                        maxPage = genericDAOInstance.getTotalPage();
+                        if (index > maxPage) { //out of range
 
-                    } else {
-
-                        if (keyword == null) { //no keyword -> full list
-                            Method getListMethod;
-                            try {
-                                getListMethod = genericDAO.getDeclaredMethod("getList", int.class);
-                            } catch (NoSuchMethodException e) {
-                                getListMethod = genericDAO.getSuperclass().getDeclaredMethod("getList", int.class);
-                            }
-                            resultList = (List<T>) getListMethod.invoke(genericDAOInstance, index);
-                        } else { //have keyword -> search
-                            Method searchMethod;
-                            try {
-                                searchMethod = genericDAO.getDeclaredMethod("search", ResultFilter[].class, String[].class, int.class);
-                            } catch (NoSuchMethodException e) {
-                                searchMethod = genericDAO.getSuperclass().getDeclaredMethod("search", ResultFilter[].class, String[].class, int.class);
-                            }
-                            resultList = (List<T>) searchMethod.invoke(genericDAOInstance, filter, keyword, index);
+                        } else {
+                            resultList = genericDAOInstance.getList(index);
                         }
+                    } else { //have keyword -> search
+                        maxPage = genericDAOInstance.getTotalSearchPage(filter, keyword);
+                        if (index > maxPage) { //out of range
 
-                        request.setAttribute("resultList", resultList);
-                        request.setAttribute("currentPage", index);
-                        request.setAttribute("maxPage", maxPage);
+                        } else {
+                            resultList = genericDAOInstance.search(filter, keyword, index);
+                        }
                     }
+                    request.setAttribute("resultList", resultList);
+                    request.setAttribute("currentPage", index);
+                    request.setAttribute("maxPage", maxPage);
 
                 } else { //index bad format
                     request.setAttribute("requestError", true);
                 }
-                String path = String.format("%1$sMgr/list-%1$s.jsp",
-                        generic.getSimpleName().substring(0, 1).toLowerCase() + generic.getSimpleName().substring(1));
+                request.setAttribute("barTitle", addFormTitle);
+                String path = String.format("%1$sMgr/list-%1$s.jsp", classNameUncapitalize);
                 System.out.println("Forward to: " + path);
+
+                doAfterForwardToList(request);
+
                 forwardToJsp(request, response, path);
 
             } else if (id.equals(-1)) { //id bad format
-                String path = String.format("%1$sMgr/list-%1$s.jsp",
-                        generic.getSimpleName().substring(0, 1).toLowerCase() + generic.getSimpleName().substring(1));
+                String path = String.format("%1$sMgr/list-%1$s.jsp", classNameUncapitalize);
                 System.out.println("Forward to: " + path);
                 forwardToJsp(request, response, path);
             } else { //have id --> view detail
-                Method getMethod;
-                try {
-                    getMethod = genericDAO.getDeclaredMethod("get", Object.class);
-                } catch (NoSuchMethodException e) {
-                    getMethod = genericDAO.getSuperclass().getDeclaredMethod("get", Object.class);
-                }
-
-                Object result = getMethod.invoke(genericDAOInstance, id);
+                T result = genericDAOInstance.get(id);
 
                 request.setAttribute("detail", result);
+                request.setAttribute("barTitle", editFormTitle);
+                request.setAttribute("editing", true);
 
-                String path = String.format("%1$sMgr/view-%1$s.jsp",
-                        generic.getSimpleName().substring(0, 1).toLowerCase() + generic.getSimpleName().substring(1));
-                System.out.println("Forward to: " + path);
-                forwardToJsp(request, response, path);
+                doAfterForwardToView(request);
+
+                forwardToJsp(request, response, "common/common-form.jsp");
             }
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+            response.getWriter().print("bad_format");
+        } catch (DBException e) {
+            e.printStackTrace();
+            response.getWriter().print("database_error");
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().print("internal_error");
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            Class<T> genericClass = (Class<T>) getMeta().getDeclaredMethod("getEntityClass").invoke(null);
+
+            //parse JSON from request body
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            T obj = (T) gson.fromJson(request.getReader(), genericClass);
+
+            //add to database
+            BaseDAO<T> genericDAOInstance = (BaseDAO<T>) ((Class<?>) getMeta().getDeclaredMethod("getDAOClass")
+                    .invoke(null)).getDeclaredConstructor().newInstance();
+            genericDAOInstance.add(obj);
+            response.getWriter().print("success");
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+            response.getWriter().print("bad_format");
+        } catch (DBException e) {
+            e.printStackTrace();
+            response.getWriter().print("database_error");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().print("internal_error");
+        }
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try {
+            Class<T> genericClass = (Class<T>) getMeta().getDeclaredMethod("getEntityClass").invoke(null);
+
+            //extract meta for key field
+            Meta keyMeta = ((Meta[]) (getMeta().getDeclaredMethod("values")).invoke(null))[0];
+
+            //parse JSON from request body
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+            Object id = getId(request, keyMeta);
+            T obj = (T) gson.fromJson(request.getReader(), genericClass);
+            obj.set(keyMeta, id);
+
+            //update to database
+            BaseDAO<T> genericDAOInstance = (BaseDAO<T>) ((Class<?>) getMeta().getDeclaredMethod("getDAOClass")
+                    .invoke(null)).getDeclaredConstructor().newInstance();
+            genericDAOInstance.update(obj);
+            response.getWriter().print("success");
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+            response.getWriter().print("bad_format");
+        } catch (DBException e) {
+            e.printStackTrace();
+            response.getWriter().print("database_error");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().print("internal_error");
         }
     }
 }

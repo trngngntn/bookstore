@@ -1,20 +1,25 @@
 package fa.training.entity;
 
+import com.google.gson.annotations.JsonAdapter;
 import fa.training.meta.TripMeta;
+import fa.training.utils.typeAdapter.DateTypeAdapter;
+import fa.training.utils.typeAdapter.TimeTypeAdapter;
 
 import java.sql.Date;
 import java.sql.Time;
 
-public class Trip extends BaseEntity{
+public class Trip extends BaseEntity<Trip>{
     @Override
-    public Class getMeta() {
+    public Class<TripMeta> getMeta() {
         return TripMeta.class;
     }
 
     private int id;
     private int bookedTicket;
     private String carType;
+    @JsonAdapter(value = TimeTypeAdapter.class)
     private Time departureTime;
+    @JsonAdapter(value = DateTypeAdapter.class)
     private Date departureDate;
     private String destination;
     private String driver;

@@ -1,12 +1,14 @@
 package fa.training.entity;
 
+import com.google.gson.annotations.JsonAdapter;
 import fa.training.meta.BookingOfficeMeta;
+import fa.training.utils.typeAdapter.DateTypeAdapter;
 
 import java.sql.Date;
 
-public class BookingOffice extends BaseEntity{
+public class BookingOffice extends BaseEntity<BookingOffice>{
     @Override
-    public Class getMeta() {
+    public Class<BookingOfficeMeta> getMeta() {
         return BookingOfficeMeta.class;
     }
 
@@ -15,7 +17,9 @@ public class BookingOffice extends BaseEntity{
     private String phone;
     private String place;
     private double price;
+    @JsonAdapter(value = DateTypeAdapter.class)
     private Date startContract;
+    @JsonAdapter(value = DateTypeAdapter.class)
     private Date endContract;
     private int tripId;
 

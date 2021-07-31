@@ -1,48 +1,50 @@
 package fa.training.servlet;
 
-import fa.training.enumeration.ResultFilter;
+import fa.training.dao.CarDAO;
+import fa.training.dao.TripDAO;
+import fa.training.entity.Ticket;
+import fa.training.meta.Meta;
+import fa.training.meta.TicketMeta;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-public class TicketServlet extends BaseServlet {
+public class TicketServlet extends BaseServlet<Ticket> {
     @Override
-    protected ResultFilter getDefaultResultFilter() {
-        return ResultFilter.NAME;
+    public Class<TicketMeta> getMeta() {
+        return TicketMeta.class;
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected Meta getDefaultFilter() {
+        return TicketMeta.CUSTOMER_NAME;
+    }
+
+    @Override
+    protected void doAfterForwardToList(HttpServletRequest request) throws Exception {
+        TripDAO tripDAO = new TripDAO();
+        request.setAttribute("tripListNotFull", tripDAO.getAllDestNotFull(null));
+    }
+
+    @Override
+    protected void doAfterForwardToView(HttpServletRequest request) throws Exception {
+        TripDAO tripDAO = new TripDAO();
+        Ticket detail = (Ticket) request.getAttribute("detail");
+        request.setAttribute("tripListNotFull", tripDAO.getAllDestNotFull(detail.getTripId()));
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         setTitle(request, "Ticket Manager");
         setBaseJspPath("baseStaff.jsp");
-
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) {
-
-    }
-
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
-        /*int id = getId(request);
-        try {
-            if (id == -1) {
-                response.getWriter().print("invalid");
-            } else {
-                ticketDAO ticketDAO = new ticketDAO();
-                if(ticketDAO.delete(id)){
-                    response.getWriter().print("success");
-                } else {
-                    response.getWriter().print("failed");
-                }
-            }
-        } catch (IOException e) {
+        try{
+            TripDAO tripDAO = new TripDAO();
+            request.setAttribute("tripList", tripDAO.getAllDest());
+            CarDAO carDAO = new CarDAO();
+            request.setAttribute("carList", carDAO.getAllLicensePlate());
+            super.doGet(request, response);
+        } catch (Exception e){
             e.printStackTrace();
-        }*/
+        }
     }
 }

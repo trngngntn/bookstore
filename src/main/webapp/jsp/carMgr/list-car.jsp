@@ -60,4 +60,4 @@
         <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
-<jsp:include page="add-car.jsp"/>
+<jsp:include page="../common/common-form.jsp" />

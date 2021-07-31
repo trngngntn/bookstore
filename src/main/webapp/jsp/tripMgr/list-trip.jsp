@@ -54,4 +54,4 @@
         <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
-<jsp:include page="add-trip.jsp" />
+<jsp:include page="../common/common-form.jsp" />

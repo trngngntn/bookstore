@@ -8,22 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
-    <div class="bar-action">
-        <button class="icon-button align-left" onclick="toAdd()">
-            <i class="material-icons-round">add</i>
-            <span class="button-label">Add</span>
-        </button>
-        <div class="inline-block">
-            <input id="search-area" type="text" placeholder="Search">
-            <button id="search-button" class="icon-button">
-                <i class="material-icons-round">search</i>
-                <span class="button-label">Search</span>
-            </button>
-        </div>
-        <select class="align-right">
-            <option>Name</option>
-        </select>
-    </div>
+    <jsp:include page="../common/common-bar-action.jsp"/>
     <div>
         <table>
             <thead>
@@ -39,7 +24,7 @@
             </thead>
             <tbody>
             <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}', document.title)">
+                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}')">
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>
@@ -61,4 +46,4 @@
         <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
-<jsp:include page="add-parkingLot.jsp" />
+<jsp:include page="../common/common-form.jsp" />

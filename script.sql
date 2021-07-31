@@ -70,5 +70,58 @@ create table `Car`(
     `office_id` int not null,
     `parking_lot_id` int not null,
     foreign key (`office_id`) references `Office`(`id`),
-    foreign key (`parking_lot_id`) references `ParkingLot`(`id`),
+    foreign key (`parking_lot_id`) references `ParkingLot`(`id`)
 );
+
+create table `Ticket`(
+	`id` int auto_increment primary key,
+    `customer_name` nvarchar(50) not null,
+    `booked_time` time not null,
+    `trip_id` int not null,
+    `license_plate` varchar(20) not null,
+    foreign key (`trip_id`) references `Trip`(`id`),
+    foreign key (`license_plate`) references `Car`(`license_plate`)
+);
+
+create trigger `after_car_insert`
+after insert on `Car`
+for each row
+	update `ParkingLot` set `status` = 1 where new.`parking_lot_id` = `ParkingLot`.`id`;
+
+delimiter //
+create trigger `after_car_update`
+after update on `Car`
+for each row
+begin
+	update `ParkingLot` set `status` = 0 where old.`parking_lot_id` = `ParkingLot`.`id`;
+    update `ParkingLot` set `status` = 1 where new.`parking_lot_id` = `ParkingLot`.`id`;
+end; //
+delimiter ;
+
+create trigger `after_car_delete`
+after delete on `Car`
+for each row
+	update `ParkingLot` set `status` = 0 where old.`parking_lot_id` = `ParkingLot`.`id`;
+
+create trigger `after_ticket_insert`
+after insert on `Ticket`
+for each row
+	update `Trip` set `booked_ticket` = `booked_ticket` + 1 where new.`trip_id` = `Trip`.`id`;
+    
+delimiter //
+create trigger `after_ticket_update`
+after update on `Ticket`
+for each row
+begin
+	update `Trip` set `booked_ticket` = `booked_ticket` + 1 where new.`trip_id` = `Trip`.`id`;
+    update `Trip` set `booked_ticket` = `booked_ticket` - 1 where old.`trip_id` = `Trip`.`id`;
+end; //
+delimiter ;
+    
+create trigger `after_ticket_delete`
+after delete on `Ticket`
+for each row
+	update `Trip` set `booked_ticket` = `booked_ticket` - 1 where old.`trip_id` = `Trip`.`id`;
+
+
+drop trigger `after_ticket_update`

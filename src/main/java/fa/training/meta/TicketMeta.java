@@ -1,19 +1,19 @@
 package fa.training.meta;
 
-import fa.training.dao.CarDAO;
-import fa.training.entity.Car;
+import fa.training.dao.TicketDAO;
+import fa.training.entity.Ticket;
 import fa.training.utils.validator.Validator;
 
-import java.sql.Date;
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum CarMeta  implements Meta {
-    LICENSE_PLATE("licensePlate", "license_plate", String.class, null, false),
-    TYPE("type", "type", String.class, null, false),
-    COLOR("color", "color", String.class, null, false),
-    OFFICE_ID("officeId","office_id", int.class, null, true),
-    PARKING_LOT_ID("parkingLotId","parking_lot_id", int.class, null, true);
+public enum TicketMeta implements Meta {
+    ID("id", "id", int.class, null, true),
+    CUSTOMER_NAME("customerName", "customer_name", String.class, null, false),
+    BOOKED_TIME("bookedTime", "booked_time", Time.class, null, true),
+    TRIP_ID("tripId", "trip_id", int.class, null, true),
+    LICENSE_PLATE("licensePlate", "license_plate", String.class, null, false);
 
     private static final Map<String, Meta> NAME_MAP = new HashMap<>();
 
@@ -29,7 +29,7 @@ public enum CarMeta  implements Meta {
         }
     }
 
-    private CarMeta(String fieldName, String dbName, Class type, Validator validator, boolean exclusive) {
+    private TicketMeta(String fieldName, String dbName, Class type, Validator validator, boolean exclusive) {
         this.fieldName = fieldName;
         this.dbName = dbName;
         this.type = type;
@@ -63,15 +63,15 @@ public enum CarMeta  implements Meta {
     }
 
     public static Class getEntityClass() {
-        return Car.class;
+        return Ticket.class;
     }
 
     public static Class getDAOClass() {
-        return CarDAO.class;
+        return TicketDAO.class;
     }
 
     public static String getDBTableName() {
-        return "Car";
+        return "Ticket";
     }
 
     public static Meta getMeta(String name){

@@ -2,11 +2,11 @@ package fa.training.entity;
 
 import fa.training.meta.Meta;
 
-@SuppressWarnings("ALL")
-public abstract class BaseEntity {
-    private Class base;
 
-    public abstract Class getMeta();
+public abstract class BaseEntity<T> {
+    private Class<T> base;
+
+    public abstract Class<? extends Meta> getMeta();
 
     public Object get(Meta meta) {
         String methodName = "get" + meta.getFieldName().substring(0, 1).toUpperCase() + meta.getFieldName().substring(1);
@@ -29,7 +29,7 @@ public abstract class BaseEntity {
 
     public BaseEntity() {
         try {
-            this.base = (Class) getMeta().getDeclaredMethod("getEntityClass").invoke(null);
+            this.base = (Class<T>) getMeta().getDeclaredMethod("getEntityClass").invoke(null);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,7 +5,7 @@
 @import url("input.css");
 @import url("table.css");
 
-:root{
+:root {
     --main-bkgnd-light: rgb(255, 255, 255);
     --main-bkgnd: rgb(244, 244, 244);
     --main-bkgnd-darker: rgb(214, 216, 224);
@@ -23,7 +23,8 @@
     --accent: rgb(53, 108, 211);
     --accent-active: rgb(31, 80, 172);
 }
-*{
+
+* {
     font-family: 'Roboto', sans-serif;
     color: #444;
     position: relative;
@@ -36,14 +37,13 @@
 }
 
 
-body{
+body {
     background-color: var(--main-bkgnd);
     font-size: 0;
 }
 
 
-
-main{
+main {
     position: absolute;
     top: 4rem;
     left: 20%;
@@ -55,99 +55,138 @@ main{
     overflow: hidden;
 }
 
-.view{
+.view {
     position: absolute;
     left: 0;
-    transition: left .8s cubic-bezier(.36,.58,.6,1);
+    transition: left .8s cubic-bezier(.36, .58, .6, 1);
     z-index: 10;
     height: calc(100vh - 4rem);
 }
-#add-view, #edit-view{
+
+#add-view, #edit-view {
     padding: 2rem 12.5%;
     width: 100%;
 }
-#list-view{
+
+#list-view {
     padding: 2rem 4rem;
     width: 100%;
 }
-.hide-top{
+
+.hide-top {
     top: -100%;
-    transition: top .8s cubic-bezier(.36,.58,.6,1), z-index 0.8s step-end;
+    transition: top .8s cubic-bezier(.36, .58, .6, 1), z-index 0.8s step-end;
     z-index: -10;
 }
-.on-top{
+
+.on-top {
     top: 0;
     background-color: var(--main-bkgnd);
-    transition: top .8s cubic-bezier(.36,.58,.6,1);
+    transition: top .8s cubic-bezier(.36, .58, .6, 1);
     z-index: 10;
 }
-.hide-right{
+
+.hide-right {
     left: 100%;
     z-index: -10;
 }
 
-.hide-left{
+.hide-left {
     left: -100%;
     z-index: -10;
 }
 
-hr{
+hr {
     margin: .25rem 0 1rem 0;
     border: none;
     border-top: var(--border);
 }
-h1{
+
+h1 {
     font-size: 2rem;
 }
 
-.bar-action{
+.bar-action {
     width: 100%;
     text-align: center;
     font-size: 0;
 }
-.bar-action > *{
+
+.bar-action > * {
     vertical-align: top;
 }
-.bar-action > .bar-title{
+
+.bar-action > .bar-title {
     line-height: 2rem;
     font-size: 1.5rem;
 }
-.bar-action > .clickable{
+
+.bar-action > .clickable {
     height: 2rem;
     border-radius: var(--border-radius);
 }
 
-.inline-block{
+.inline-block {
     display: inline-block;
     font-size: 0;
 }
 
-.inline-block > *{
+.inline-block > * {
     vertical-align: top;
 }
 
-.align-left{
+.align-left {
     position: absolute;
     left: 0;
 }
 
-.align-right{
+.align-right {
     position: absolute;
     right: 0;
 }
 
-.hidden{
+.hidden {
     display: none;
 }
 
-.clickable{
+.clickable {
     cursor: pointer;
     transition: background-color 0.2s;
 }
-.clickable:hover{
+
+.clickable:hover {
     background-color: var(--overlay-dark);
 }
-.clickable:active{
+
+.clickable:active {
     background-color: var(--overlay-darker);
 }
 
+#status-bar {
+    position: absolute;
+    bottom: 0;
+    text-align: left;
+    border-top: var(--border);
+    width: 100%;
+    padding: 0 1rem;
+}
+.status-message{
+    line-height: 2rem;
+}
+
+.status-message > *{
+    vertical-align: top;
+}
+
+.status-message > .material-icons-round{
+    margin-top: calc(1rem - 12px);
+    margin-right: .5rem;
+}
+
+.success {
+    color: #22b84b;
+}
+
+.error {
+    color: #b3361d;
+}

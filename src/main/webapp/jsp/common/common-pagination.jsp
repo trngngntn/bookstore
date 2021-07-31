@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <div id="page-nav">
     <c:if test="${currentPage gt 1}">
         <span class="align-left">
@@ -30,7 +29,7 @@
         <c:if test="${currentPage + 4 > maxPage and maxPage >= 9}">
             <c:forEach begin="${1 > (maxPage - 8)?1:maxPage-8}" end="${currentPage - 5}" var="page">
                 <c:if test="${page ne currentPage}">
-                    <div class="clickable">${page}</div>
+                    <div class="clickable" onclick="changePage(`?index=${page}`, true)">${page}</div>
                 </c:if>
             </c:forEach>
         </c:if>
@@ -40,14 +39,14 @@
                 <div class="current">${page}</div>
             </c:if>
             <c:if test="${page ne currentPage}">
-                <div class="clickable">${page}</div>
+                <div class="clickable" onclick="changePage(`?index=${page}`, true)">${page}</div>
             </c:if>
         </c:forEach>
 
         <c:if test="${currentPage - 4 < 1}">
             <c:forEach begin="${currentPage + 5}" end="${9<maxPage?9:maxPage}" var="page">
                 <c:if test="${page ne currentPage}">
-                    <div class="clickable">${page}</div>
+                    <div class="clickable" onclick="changePage(`?index=${page}`, true)">${page}</div>
                 </c:if>
             </c:forEach>
         </c:if>

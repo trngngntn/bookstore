@@ -39,7 +39,7 @@
             </thead>
             <tbody>
             <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/office/${item.id}', document.title)">
+                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/bookingOffice/${item.id}')">
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>
@@ -58,4 +58,4 @@
         <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
-<jsp:include page="add-bookingOffice.jsp" />
+<jsp:include page="../common/common-form.jsp" />

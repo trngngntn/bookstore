@@ -2,9 +2,9 @@ package fa.training.entity;
 
 import fa.training.meta.ParkingLotMeta;
 
-public class ParkingLot extends BaseEntity{
+public class ParkingLot extends BaseEntity<ParkingLot>{
     @Override
-    public Class getMeta() {
+    public Class<ParkingLotMeta> getMeta() {
         return ParkingLotMeta.class;
     }
 

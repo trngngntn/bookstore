@@ -1,53 +1,33 @@
 package fa.training.servlet;
 
-import fa.training.enumeration.ResultFilter;
+import fa.training.entity.Trip;
+import fa.training.meta.Meta;
 import fa.training.meta.TripMeta;
 
-import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
-public class TripServlet extends BaseServlet {
+public class TripServlet extends BaseServlet<Trip> {
     @Override
-    protected ResultFilter getDefaultResultFilter() {
-        return ResultFilter.NAME;
+    public Class<TripMeta> getMeta() {
+        return TripMeta.class;
+    }
+
+    @Override
+    protected Meta getDefaultFilter() {
+        return TripMeta.DESTINATION;
     }
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        addFormTitle = "Add a new parking lot";
+        editFormTitle = "Parking lot detail";
         setTitle(request, "Trip Manager");
         setBaseJspPath("baseStaff.jsp");
         try{
-            doGetBase(request, response, TripMeta.class);
+            super.doGet(request, response);
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) {
-
-    }
-
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) {
-        /*int id = getId(request);
-        try {
-            if (id == -1) {
-                response.getWriter().print("invalid");
-            } else {
-                tripDAO tripDAO = new tripDAO();
-                if(tripDAO.delete(id)){
-                    response.getWriter().print("success");
-                } else {
-                    response.getWriter().print("failed");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
     }
 }
 

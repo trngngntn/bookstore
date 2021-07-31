@@ -1,19 +1,22 @@
 package fa.training.entity;
 
+import com.google.gson.annotations.JsonAdapter;
 import fa.training.meta.EmployeeMeta;
-import fa.training.utils.DateUtils;
+import fa.training.utils.DateTimeUtils;
+import fa.training.utils.typeAdapter.DateTypeAdapter;
 
 import java.sql.Date;
 
-public class Employee extends BaseEntity{
+public class Employee extends BaseEntity<Employee>{
     @Override
-    public Class getMeta() {
+    public Class<EmployeeMeta> getMeta() {
         return EmployeeMeta.class;
     }
 
     private int id;
     private String name;
     private String phone;
+    @JsonAdapter(value = DateTypeAdapter.class)
     private Date dob;
     private String address;
     private boolean sex;
@@ -23,38 +26,6 @@ public class Employee extends BaseEntity{
     private String password;
 
     public Employee() {
-    }
-
-    public Employee(int id, String name, String phone, Date dob, String address, boolean sex, int departmentId, String email, String account) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.dob = dob;
-        this.address = address;
-        this.sex = sex;
-        this.departmentId = departmentId;
-        this.email = email;
-        this.account = account;
-    }
-
-    public Employee(String name, String phone, Date dob, String address, boolean sex, int departmentId, String email, String account) {
-        this.name = name;
-        this.phone = phone;
-        this.dob = dob;
-        this.address = address;
-        this.sex = sex;
-        this.departmentId = departmentId;
-        this.email = email;
-        this.account = account;
-    }
-
-    public Employee(int id, String name, String phone, Date dob, String address, int departmentId) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.dob = dob;
-        this.address = address;
-        this.departmentId = departmentId;
     }
 
     public int getId() {
@@ -74,7 +45,7 @@ public class Employee extends BaseEntity{
     }
 
     public String getDobF() {
-        return DateUtils.formatDate(dob);
+        return DateTimeUtils.formatDate(dob);
     }
 
     public String getAddress() {
@@ -135,5 +106,21 @@ public class Employee extends BaseEntity{
 
     public void setAccount(String account) {
         this.account = account;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", dob=" + dob +
+                ", address='" + address + '\'' +
+                ", sex=" + sex +
+                ", departmentId=" + departmentId +
+                ", email='" + email + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

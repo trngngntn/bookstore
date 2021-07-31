@@ -2,9 +2,9 @@ package fa.training.entity;
 
 import fa.training.meta.CarMeta;
 
-public class Car extends BaseEntity{
+public class Car extends BaseEntity<Car>{
     @Override
-    public Class getMeta() {
+    public Class<CarMeta> getMeta() {
         return CarMeta.class;
     }
 
@@ -15,6 +15,10 @@ public class Car extends BaseEntity{
     private int parkingLotId;
 
     public Car() {
+    }
+
+    public String getId(){
+        return licensePlate;
     }
 
     public String getLicensePlate() {
