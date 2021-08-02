@@ -54,11 +54,13 @@
             <div id="error-${BookingOfficeMeta.PLACE.fieldName}-1" class="error hidden">This field is required</div>
         </td>
     </tr>
-    <tr id="${BookingOfficeMeta.PRICE.fieldName}-row" func="checkNull">
+    <tr id="${BookingOfficeMeta.PRICE.fieldName}-row" func="checkNum">
         <td class="required">Price</td>
         <td>
             <input name="${BookingOfficeMeta.PRICE.fieldName}" type="number" placeholder="Enter price" value="${detail.price}" min="0">
             <div id="error-${BookingOfficeMeta.PRICE.fieldName}-1" class="error hidden">This field is required</div>
+            <div id="error-${BookingOfficeMeta.PRICE.fieldName}-2" class="error hidden">Price >= 0</div>
+
         </td>
     </tr>
     <tr id="${BookingOfficeMeta.START_CONTRACT.fieldName}-row" func="checkNull">

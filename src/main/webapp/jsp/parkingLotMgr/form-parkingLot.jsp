@@ -40,20 +40,22 @@
             <div id="error-${ParkingLotMeta.PLACE_ID.fieldName}-1" class="error hidden">This field is required</div>
         </td>
     </tr>
-    <tr id="${ParkingLotMeta.AREA.fieldName}-row" func="checkNull">
+    <tr id="${ParkingLotMeta.AREA.fieldName}-row" func="checkNum">
         <td class="required">Area</td>
         <td>
             <input name="${ParkingLotMeta.AREA.fieldName}" type="text" placeholder="Enter area" min="0"
                    value="${detail.area}">
             <div id="error-${ParkingLotMeta.AREA.fieldName}-1" class="error hidden">This field is required</div>
+            <div id="error-${ParkingLotMeta.AREA.fieldName}-2" class="error hidden">Area >= 0</div>
         </td>
     </tr>
-    <tr id="${ParkingLotMeta.PRICE.fieldName}-row" func="checkNull">
+    <tr id="${ParkingLotMeta.PRICE.fieldName}-row" func="checkNum">
         <td class="required">Price</td>
         <td>
             <input name="${ParkingLotMeta.PRICE.fieldName}" type="text" placeholder="Enter price" min="0"
                    value="${detail.price}">
             <div id="error-${ParkingLotMeta.PRICE.fieldName}-1" class="error hidden">This field is required</div>
+            <div id="error-${ParkingLotMeta.PRICE.fieldName}-2" class="error hidden">Price >= 0</div>
         </td>
     </tr>
     </tbody>

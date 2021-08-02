@@ -96,13 +96,13 @@ public class EmployeeDAO extends BaseDAO<Employee> {
         return -1;
     }
 
-    public boolean usernameIsExist(String username) throws Exception {
-        final String SQL = "SELECT `id` FROM `Employee` WHERE `account` = ?";
+    public boolean accountExists(String account) throws Exception {
+        final String SQL = "SELECT COUNT(*) FROM `Employee` WHERE `account` = ?";
         ResultSet resultSet = null;
         try {
-            resultSet = getResultSet(SQL, username);
+            resultSet = getResultSet(SQL, account);
             if (resultSet.next()) {
-                return true;
+                return resultSet.getInt(1) > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,13 +113,13 @@ public class EmployeeDAO extends BaseDAO<Employee> {
         return false;
     }
 
-    public boolean emailIsExist(String email) throws Exception {
-        final String SQL = "SELECT `id` FROM `Employee` WHERE `email` = ?";
+    public boolean emailExists(String email) throws Exception {
+        final String SQL = "SELECT COUNT(*) FROM `Employee` WHERE `email` = ?";
         ResultSet resultSet = null;
         try {
             resultSet = getResultSet(SQL, email);
             if (resultSet.next()) {
-                return true;
+                return resultSet.getInt(1) > 0;
             }
         } catch (Exception e) {
             e.printStackTrace();

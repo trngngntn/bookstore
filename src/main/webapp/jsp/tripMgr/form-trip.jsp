@@ -50,12 +50,13 @@
             <div id="error-${TripMeta.CAR_TYPE.fieldName}-1" class="error hidden">This field is required</div>
         </td>
     </tr>
-    <tr id="${TripMeta.MAX_ONL_TICKET.fieldName}-row" func="checkNull">
+    <tr id="${TripMeta.MAX_ONL_TICKET.fieldName}-row" func="checkNum">
         <td class="required">Maximum online ticket</td>
         <td>
             <input name="${TripMeta.MAX_ONL_TICKET.fieldName}" type="number" placeholder="Enter number" min="0"
                    value="${detail.maxOnlTicket}">
             <div id="error-${TripMeta.MAX_ONL_TICKET.fieldName}-1" class="error hidden">This field is required</div>
+            <div id="error-${TripMeta.MAX_ONL_TICKET.fieldName}-2" class="error hidden">Maximum online ticket > 0</div>
         </td>
     </tr>
     <tr id="${TripMeta.DEPARTURE_DATE.fieldName}-row" func="checkNull">

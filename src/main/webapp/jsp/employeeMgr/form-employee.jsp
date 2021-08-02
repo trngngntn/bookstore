@@ -86,6 +86,7 @@
                    value="${detail.email}">
             <div id="error-${EmployeeMeta.EMAIL.fieldName}-1" class="error hidden">This field is required</div>
             <div id="error-${EmployeeMeta.EMAIL.fieldName}-2" class="error hidden">Incorrect format</div>
+            <div id="error-${EmployeeMeta.EMAIL.fieldName}-3" class="error hidden">E-mail is already in use</div>
         </td>
     </tr>
     <tr id="${EmployeeMeta.ACCOUNT.fieldName}-row" func="checkAccount">
@@ -94,8 +95,8 @@
             <input name="${EmployeeMeta.ACCOUNT.fieldName}" type="text" placeholder="Enter account" maxlength="50"
                    value="${detail.account}">
             <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-1" class="error hidden">This field is required</div>
-            <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-2" class="error hidden">Account is already existed
-            </div>
+            <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-2" class="error hidden">Account is already existed</div>
+            <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-3" class="error hidden">Forbidden value</div>
         </td>
     </tr>
     <tr id="${EmployeeMeta.PASSWORD.fieldName}-row" func="checkPassword">

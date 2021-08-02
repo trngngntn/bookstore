@@ -11,12 +11,13 @@
 <table>
     <tbody>
     <c:if test="${empty editing}">
-        <tr  id="${CarMeta.LICENSE_PLATE.fieldName}-row" func="checkNull">
+        <tr  id="${CarMeta.LICENSE_PLATE.fieldName}-row" func="checkLicensePlate">
             <td class="required">License plate</td>
             <td>
                 <input name="${CarMeta.LICENSE_PLATE.fieldName}" type="text" placeholder="Enter license plate"
                        maxlength="20">
                 <div id="error-${CarMeta.LICENSE_PLATE.fieldName}-1" class="error hidden">This field is required</div>
+                <div id="error-${CarMeta.LICENSE_PLATE.fieldName}-2" class="error hidden">License plate is already in use</div>
             </td>
         </tr>
     </c:if>

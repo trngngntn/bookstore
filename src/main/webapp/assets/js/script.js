@@ -73,6 +73,15 @@ function backToList() {
     const listView = document.getElementById("list-view");
     listView.className = "view";
     addView.className = "view hide-top";
+    let rows = document.querySelectorAll(".invalid");
+    rows.forEach(function(row){
+        row.className = "";
+    });
+
+    let errors = document.querySelectorAll(".error:not(.status-message)");
+    errors.forEach(function(error){
+        error.className = "error hidden";
+    });
 }
 
 function toAdd() {

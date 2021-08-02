@@ -31,4 +31,21 @@ public class CarDAO extends BaseDAO<Car>{
         }
         return result;
     }
+
+    public boolean licensePlateExists(String licensePlate) throws Exception {
+        final String SQL = "SELECT COUNT(*) FROM `Car` WHERE `license_plate` = ?";
+        ResultSet resultSet = null;
+        try {
+            resultSet = getResultSet(SQL, licensePlate);
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            DBConnectionUtils.closeResultSet(resultSet);
+        }
+        return false;
+    }
 }
