@@ -1,6 +1,7 @@
 package fa.training.entity;
 
 import fa.training.meta.CarMeta;
+import fa.training.utils.validator.LicensePlateValidator;
 
 public class Car extends BaseEntity<Car>{
     @Override
@@ -42,7 +43,8 @@ public class Car extends BaseEntity<Car>{
     }
 
     public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
+        LicensePlateValidator v = new LicensePlateValidator();
+        this.licensePlate = v.normalize(licensePlate);
     }
 
     public void setType(String type) {

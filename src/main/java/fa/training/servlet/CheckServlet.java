@@ -3,6 +3,7 @@ package fa.training.servlet;
 import fa.training.dao.CarDAO;
 import fa.training.dao.EmployeeDAO;
 import fa.training.utils.db.DBException;
+import fa.training.utils.validator.LicensePlateValidator;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -19,6 +20,10 @@ public class CheckServlet extends HttpServlet {
         try {
             if (account != null) {
                 EmployeeDAO employeeDAO = new EmployeeDAO();
+                if(account.indexOf(" ") != -1) {
+                    response.getWriter().print("bad_format");
+                    return;
+                }
                 response.getWriter().print(employeeDAO.accountExists(account.trim()));
             }
             if (email != null) {
@@ -27,6 +32,8 @@ public class CheckServlet extends HttpServlet {
             }
             if (licensePlate != null) {
                 CarDAO carDAO = new CarDAO();
+                LicensePlateValidator v = new LicensePlateValidator();
+                licensePlate = v.normalize(licensePlate);
                 response.getWriter().print(carDAO.licensePlateExists(licensePlate));
             }
         } catch (DBException e) {
