@@ -22,7 +22,7 @@ function checkNull(value) {
 
 function checkDOB(value) {
     if (value == null || value.trim() == "") return 1;
-    else if (value >= new Date()) return 2;
+    else if (new Date(value) >= new Date()) return 2;
     else return 0;
 }
 
@@ -47,7 +47,10 @@ function checkAccount(value) {
     if (value == null || value.trim() == "") return 1;
     else if(value == "admin" || value == "root" || value == "guest"){
         return 3;
-    } else {
+    } else if(value.indexOf(" ") != -1){
+        return 4;
+    }
+    else {
         let xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {

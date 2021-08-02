@@ -17,7 +17,6 @@ public class EmployeeDAO extends BaseDAO<Employee> {
     }
 
 
-
     public List<Department> getDepartments() throws Exception {
         final String SQL = "SELECT * FROM `Department`";
         ResultSet resultSet = null;
@@ -139,6 +138,32 @@ public class EmployeeDAO extends BaseDAO<Employee> {
         try {
             return getResult(SQL, newObj.getName(), newObj.getPhone(), newObj.getDob(), newObj.getAddress(),
                     newObj.getSex(), newObj.getDepartmentId(), newObj.getEmail(), newObj.getAccount(), salt, pwdHash) > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public boolean update(Employee newObj) throws Exception {
+        String salt = null, pwdHash = null;
+        String sql = "UPDATE `Employee` SET `name`=?,`phone`=?,`dob`=?,`address`=?,`sex`=?,`department_id`=?,`email`=?,`account`=?,`salt`=?,`pwd_hash`=?\n" +
+                "WHERE `id`=?";
+        if (newObj.getPassword() == null || newObj.getPassword().equals("")) {
+            sql = "UPDATE `Employee` SET `name`=?,`phone`=?,`dob`=?,`address`=?,`sex`=?,`department_id`=?,`email`=?,`account`=?\n" +
+                    "WHERE `id`=?";
+        } else {
+            salt = HashUtils.generateSalt();
+            pwdHash = HashUtils.generatePwdHash(newObj.getPassword(), salt);
+        }
+        try {
+            if (newObj.getPassword() == null || newObj.getPassword().equals("")) {
+                return getResult(sql, newObj.getName(), newObj.getPhone(), newObj.getDob(), newObj.getAddress(),
+                        newObj.getSex(), newObj.getDepartmentId(), newObj.getEmail(), newObj.getAccount(), newObj.getId()) > 0;
+            } else {
+                return getResult(sql, newObj.getName(), newObj.getPhone(), newObj.getDob(), newObj.getAddress(),
+                        newObj.getSex(), newObj.getDepartmentId(), newObj.getEmail(), newObj.getAccount(), salt, pwdHash, newObj.getId()) > 0;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

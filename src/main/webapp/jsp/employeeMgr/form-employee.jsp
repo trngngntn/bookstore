@@ -97,6 +97,7 @@
             <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-1" class="error hidden">This field is required</div>
             <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-2" class="error hidden">Account is already existed</div>
             <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-3" class="error hidden">Forbidden value</div>
+            <div id="error-${EmployeeMeta.ACCOUNT.fieldName}-4" class="error hidden">Account must not contain space character</div>
         </td>
     </tr>
     <tr id="${EmployeeMeta.PASSWORD.fieldName}-row" func="checkPassword">

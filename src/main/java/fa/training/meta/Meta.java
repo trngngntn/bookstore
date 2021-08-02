@@ -6,7 +6,7 @@ public interface Meta {
     public String getFieldName();
     public String getDBName();
     public Class getType();
-    public Validator getValidator();
+    public Class<? extends Validator> getValidator();
     public boolean isExclusive();
     /*public Class getEntityClass();
     public Class getDAOClass();

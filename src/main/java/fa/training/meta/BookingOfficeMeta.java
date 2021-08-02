@@ -2,6 +2,7 @@ package fa.training.meta;
 
 import fa.training.dao.BookingOfficeDAO;
 import fa.training.entity.BookingOffice;
+import fa.training.utils.validator.GeneralStringValidator;
 import fa.training.utils.validator.Validator;
 
 import java.sql.Date;
@@ -10,9 +11,9 @@ import java.util.Map;
 
 public enum BookingOfficeMeta implements Meta {
     ID("id", "id", int.class, null, true),
-    NAME("name", "name", String.class, null, false),
-    PHONE("phone", "phone", String.class, null, false),
-    PLACE("place", "place", String.class, null, false),
+    NAME("name", "name", String.class, GeneralStringValidator.class, false),
+    PHONE("phone", "phone", String.class, GeneralStringValidator.class, false),
+    PLACE("place", "place", String.class, GeneralStringValidator.class, false),
     PRICE("price", "price", double.class, null, true),
     START_CONTRACT("startContract","start_contract", Date.class, null, true),
     END_CONTRACT("endContract","end_contract", Date.class, null, true),
@@ -23,7 +24,7 @@ public enum BookingOfficeMeta implements Meta {
     private final String fieldName;
     private final String dbName;
     private final Class type;
-    private final Validator validator;
+    private final Class<? extends Validator> validator;
     private final boolean exclusive;
 
     static{
@@ -32,7 +33,7 @@ public enum BookingOfficeMeta implements Meta {
         }
     }
 
-    private BookingOfficeMeta(String fieldName, String dbName, Class type, Validator validator, boolean exclusive) {
+    private BookingOfficeMeta(String fieldName, String dbName, Class type, Class<? extends Validator> validator, boolean exclusive) {
         this.fieldName = fieldName;
         this.dbName = dbName;
         this.type = type;
@@ -56,7 +57,7 @@ public enum BookingOfficeMeta implements Meta {
     }
 
     @Override
-    public Validator getValidator() {
+    public Class<? extends Validator> getValidator() {
         return validator;
     }
 

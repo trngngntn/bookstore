@@ -1,6 +1,7 @@
 package fa.training.entity;
 
 import fa.training.meta.Meta;
+import fa.training.utils.validator.Validator;
 
 
 public abstract class BaseEntity<T> {
@@ -39,7 +40,13 @@ public abstract class BaseEntity<T> {
         return false;
     }
 
-    public void normalize(){
-
+    public void normalize() throws Exception {
+        Meta[] values = getMeta().getEnumConstants();
+        for(Meta meta : values){
+            Validator v = meta.getValidator().getDeclaredConstructor().newInstance();
+            if(v != null){
+                set(meta, v.normalize(get(meta)));
+            }
+        }
     }
 }

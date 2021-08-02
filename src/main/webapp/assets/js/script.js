@@ -112,13 +112,13 @@ function buildParameter(form, type) {
     let jsonObject = {};
     let failed = 0;
     for (let entry of formData.entries()) {
-        jsonObject[entry[0]] = entry[1];
+        jsonObject[entry[0]] = entry[1].trim();
         if((type == 1 && entry[1] != old[entry[0]]) || type == 0){
             let elmRow = document.getElementById(`${entry[0]}-row`);
             if(elmRow.getAttribute("func") == "") continue;
             let func = window[elmRow.getAttribute("func")];
             console.log("FUNC: " + elmRow.getAttribute("func") + " : " +`${entry[0]}-row`);
-            let checkResult = func(entry[1]);
+            let checkResult = func(entry[1].trim());
             if(checkResult != 0){
                 failed = 1;
                 elmRow.className = "invalid";

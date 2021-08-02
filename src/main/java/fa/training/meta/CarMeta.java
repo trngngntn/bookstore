@@ -2,6 +2,7 @@ package fa.training.meta;
 
 import fa.training.dao.CarDAO;
 import fa.training.entity.Car;
+import fa.training.utils.validator.LicensePlateValidator;
 import fa.training.utils.validator.Validator;
 
 import java.sql.Date;
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum CarMeta  implements Meta {
-    LICENSE_PLATE("licensePlate", "license_plate", String.class, null, false),
+    LICENSE_PLATE("licensePlate", "license_plate", String.class, LicensePlateValidator.class, false),
     TYPE("type", "type", String.class, null, false),
     COLOR("color", "color", String.class, null, false),
     OFFICE_ID("officeId","office_id", int.class, null, true),
@@ -20,7 +21,7 @@ public enum CarMeta  implements Meta {
     private final String fieldName;
     private final String dbName;
     private final Class type;
-    private final Validator validator;
+    private final Class<? extends Validator> validator;
     private final boolean exclusive;
 
     static{
@@ -29,7 +30,7 @@ public enum CarMeta  implements Meta {
         }
     }
 
-    private CarMeta(String fieldName, String dbName, Class type, Validator validator, boolean exclusive) {
+    private CarMeta(String fieldName, String dbName, Class type, Class<? extends Validator> validator, boolean exclusive) {
         this.fieldName = fieldName;
         this.dbName = dbName;
         this.type = type;
@@ -53,7 +54,7 @@ public enum CarMeta  implements Meta {
     }
 
     @Override
-    public Validator getValidator() {
+    public Class<? extends Validator> getValidator() {
         return validator;
     }
 

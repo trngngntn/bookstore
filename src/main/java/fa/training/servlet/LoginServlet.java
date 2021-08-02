@@ -31,10 +31,10 @@ public class LoginServlet extends HttpServlet {
                 System.out.println(savedKey + " : " + calKey);
                 if (savedKey.equals(calKey)) {
                     request.getSession().setAttribute("activeUid", uid);
-                    response.sendRedirect("profile");
+                    response.sendRedirect("employee");
                 }
             } else if (request.getSession().getAttribute("activeUid") != null) {
-                response.sendRedirect("profile");
+                response.sendRedirect("employee");
             } else {
                 request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
             }

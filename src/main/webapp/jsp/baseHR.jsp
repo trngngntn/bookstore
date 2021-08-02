@@ -13,7 +13,7 @@
 <body onload="initPage()">
 <jsp:include page="common/common-header.jsp" />
 <nav>
-    <div class="nav-entry" onclick="//changePage('<%= request.getContextPath()%>/car', 'Car Manager')">
+    <div class="nav-entry clickable" onclick="changePage('<%= request.getContextPath()%>/employee')">
         <i class="material-icons-round">people</i>
         <span class="nav-entry-label">Employee Manager</span>
     </div>

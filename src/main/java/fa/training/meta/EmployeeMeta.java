@@ -26,7 +26,7 @@ public enum EmployeeMeta implements Meta {
     private final String fieldName;
     private final String dbName;
     private final Class type;
-    private final Validator validator;
+    private final Class<? extends Validator> validator;
     private final boolean exclusive;
 
     static{
@@ -35,7 +35,7 @@ public enum EmployeeMeta implements Meta {
         }
     }
 
-    private EmployeeMeta(String fieldName, String dbName, Class type, Validator validator, boolean exclusive) {
+    private EmployeeMeta(String fieldName, String dbName, Class type, Class<? extends Validator> validator, boolean exclusive) {
         this.fieldName = fieldName;
         this.dbName = dbName;
         this.type = type;
@@ -59,7 +59,7 @@ public enum EmployeeMeta implements Meta {
     }
 
     @Override
-    public Validator getValidator() {
+    public Class<? extends Validator> getValidator() {
         return validator;
     }
 
