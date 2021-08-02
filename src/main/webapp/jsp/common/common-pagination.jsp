@@ -10,11 +10,11 @@
 <div id="page-nav">
     <c:if test="${currentPage gt 1}">
         <span class="align-left">
-            <button id="first-button" class="icon-button">
+            <button id="first-button" class="icon-button" onclick="changePage(`?${prm}index=1`, true)">
                 <i class="material-icons-round">first_page</i>
                 <span class="button-label">First</span>
             </button>
-            <button id="prev-button" class="icon-button">
+            <button id="prev-button" class="icon-button" onclick="changePage(`?${prm}index=${currentPage - 1}`, true)">
                 <i class="material-icons-round">navigate_before</i>
                 <span class="button-label">Prev</span>
             </button>
@@ -29,7 +29,7 @@
         <c:if test="${currentPage + 4 > maxPage and maxPage >= 9}">
             <c:forEach begin="${1 > (maxPage - 8)?1:maxPage-8}" end="${currentPage - 5}" var="page">
                 <c:if test="${page ne currentPage}">
-                    <div class="clickable" onclick="changePage(`?index=${page}`, true)">${page}</div>
+                    <div class="clickable" onclick="changePage(`?${prm}index=${page}`, true)">${page}</div>
                 </c:if>
             </c:forEach>
         </c:if>
@@ -39,14 +39,14 @@
                 <div class="current">${page}</div>
             </c:if>
             <c:if test="${page ne currentPage}">
-                <div class="clickable" onclick="changePage(`?index=${page}`, true)">${page}</div>
+                <div class="clickable" onclick="changePage(`?${prm}index=${page}`, true)">${page}</div>
             </c:if>
         </c:forEach>
 
         <c:if test="${currentPage - 4 < 1}">
             <c:forEach begin="${currentPage + 5}" end="${9<maxPage?9:maxPage}" var="page">
                 <c:if test="${page ne currentPage}">
-                    <div class="clickable" onclick="changePage(`?index=${page}`, true)">${page}</div>
+                    <div class="clickable" onclick="changePage(`?${prm}index=${page}`, true)">${page}</div>
                 </c:if>
             </c:forEach>
         </c:if>
@@ -59,11 +59,11 @@
 
     <c:if test="${currentPage lt maxPage}">
         <span class="align-right">
-            <button id="next-button" class="icon-button">
+            <button id="next-button" class="icon-button" onclick="changePage(`?${prm}index=${currentPage + 1}`, true)">
                 <i class="material-icons-round">navigate_next</i>
                 <span class="button-label">Next</span>
             </button>
-            <button id="last-button" class="icon-button">
+            <button id="last-button" class="icon-button" onclick="changePage(`?${prm}index=${maxPage}`, true)">
                 <i class="material-icons-round">last_page</i>
                 <span class="button-label">Last</span>
             </button>

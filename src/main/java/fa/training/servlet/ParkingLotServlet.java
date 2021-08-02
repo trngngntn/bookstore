@@ -24,6 +24,7 @@ public class ParkingLotServlet extends BaseServlet<ParkingLot> {
         //using template
         addFormTitle = "Add a new parking lot";
         editFormTitle = "Parking lot detail";
+        searchableMeta = new ParkingLotMeta[] {ParkingLotMeta.NAME};
         setTitle(request, "Parking Lot Manager");
         setBaseJspPath("baseStaff.jsp");
         try {

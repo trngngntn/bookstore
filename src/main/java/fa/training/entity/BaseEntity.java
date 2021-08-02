@@ -34,4 +34,12 @@ public abstract class BaseEntity<T> {
             e.printStackTrace();
         }
     }
+
+    public boolean validate(){
+        return false;
+    }
+
+    public void normalize(){
+
+    }
 }

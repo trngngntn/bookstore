@@ -35,6 +35,9 @@ public class TicketServlet extends BaseServlet<Ticket> {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        addFormTitle = "Add a new ticket";
+        editFormTitle = "Ticket detail";
+        searchableMeta = new TicketMeta[] {TicketMeta.LICENSE_PLATE, TicketMeta.CUSTOMER_NAME};
         setTitle(request, "Ticket Manager");
         setBaseJspPath("baseStaff.jsp");
         try{

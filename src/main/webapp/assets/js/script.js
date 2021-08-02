@@ -13,6 +13,9 @@ function initPage() {
             id = window.history.state.id;
         }
     }
+    if(document.getElementById("edit-form") != null){
+        duplicate();
+    }
 }
 
 window.addEventListener('popstate', (event) => {
@@ -33,6 +36,7 @@ function changePage(url, hasParam = false, title = document.title) {
     document.title = title;
     document.getElementById("page-title").innerHTML = title;
     loadPage(url, hasParam);
+    hideStatus();
 }
 
 function changePageIndex(index) {
@@ -59,63 +63,10 @@ function loadPage(url, hasParam) {
 function updatePage(newContent) {
     const main = document.getElementById("main");
     main.innerHTML = newContent;
-}
-
-
-
-
-/*function updatePage(newContent, type){
-    const main = document.getElementById("main");
-    const mainChild = main.childNodes;
-    let onView;
-    for(let i = mainChild.length - 1; i>=0; i--){
-        if(mainChild[i].className != "view"){
-            main.removeChild(mainChild[i]);
-        } else {
-            onView = mainChild[i];
-        }
+    if(document.getElementById("edit-form") != null){
+        duplicate();
     }
-    const newPage = new DOMParser().parseFromString(newContent, 'text/html').getElementsByTagName("BODY")[0];
-    let newView = newPage.firstChild;
-    newPage.removeChild(newView);
-    let newElm = newPage.innerHTML;
-    onView.ontransitionstart = function (){
-        newView.className = "view";
-    };
-    onView.ontransitionend = function (){
-        setTimeout(() => {
-            main.removeChild(onView);
-            main.innerHTML = main.innerHTML + newElm;
-        }, 10);
-    };
-
-    newView.className = type == 0?"view hide-right":"view hide-left";
-    main.appendChild(newView);
-    onView.className = type == 0?"view hide-left":"view hide-right";
 }
-
-function loadPage(url, type){
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            updatePage(xhr.responseText, type);
-        }
-    };
-    xhr.open("GET", `${url}?raw`, true);
-    xhr.send();
-}*/
-
-
-/*function loadPageSearch(url){
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            updatePageSearch(xhr.responseText);
-        }
-    };
-    xhr.open("GET", `${url}&raw`, true);
-    xhr.send();
-}*/
 
 function backToList() {
     const addView = document.getElementById("add-view");
@@ -128,46 +79,117 @@ function toAdd() {
     const addView = document.getElementById("add-view");
     const listView = document.getElementById("list-view");
     addView.className = "view on-top";
+    hideStatus();
 }
 
-function buildParameter(form) {
+function hideStatus(){
+    document.getElementById("added-status").className = "status-message success hidden";
+    document.getElementById("updated-status").className = "status-message success hidden";
+    document.getElementById("db-error-status").className = "status-message error hidden";
+}
+
+function hideErrors(row){
+    let child = row.childNodes[3].childNodes;
+    for(let i = 0; i < child.length; i++){
+        //console.log(child[i]);
+        if(child[i].className == "error"){
+            child[i].className = "error hidden";
+        }
+    }
+}
+
+function buildParameter(form, type) {
     let formData = new FormData(form);
     let jsonObject = {};
+    let failed = 0;
     for (let entry of formData.entries()) {
         jsonObject[entry[0]] = entry[1];
+        if((type == 1 && entry[1] != old[entry[0]]) || type == 0){
+            let elmRow = document.getElementById(`${entry[0]}-row`);
+            if(elmRow.getAttribute("func") == "") continue;
+            let func = window[elmRow.getAttribute("func")];
+            console.log("FUNC: " + elmRow.getAttribute("func") + " : " +`${entry[0]}-row`);
+            let checkResult = func(entry[1]);
+            if(checkResult != 0){
+                failed = 1;
+                elmRow.className = "invalid";
+                hideErrors(elmRow);
+                console.log("RES: " + `error-${entry[0]}-${checkResult}`);
+                document.getElementById(`error-${entry[0]}-${checkResult}`).className = "error";
+            } else {
+                elmRow.className = "";
+                hideErrors(elmRow);
+            }
+        }
     }
-    return jsonObject;
+    return failed == 1 ? 0 : jsonObject;
 }
 
 function submitAddForm() {
     const form = document.getElementById("add-form");
+    let obj = buildParameter(form, 0);
+    if(obj == 0) return;
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(xhr.responseText);
+            if(xhr.responseText == "success"){
+                changePage(window.location.pathname);
+                document.getElementById("added-status").className = "status-message success";
+
+            } else {
+                document.getElementById("db-error-status").className = "status-message error";
+            }
         }
     };
     xhr.open("POST", `${form.getAttribute("action")}`, true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify(buildParameter(form)));
+    xhr.send(JSON.stringify(obj));
 }
 
 function submitEditForm() {
     const form = document.getElementById("edit-form");
+    let obj = buildParameter(form, 1);
+    if(obj == 0) return;
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(xhr.responseText);
+            if(xhr.responseText == "success"){
+                let url = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
+                changePage(url);
+                document.getElementById("updated-status").className = "status-message success";
+            } else {
+                document.getElementById("db-error-status").className = "status-message error";
+            }
         }
     };
     xhr.open("PUT", `${form.getAttribute("action")}`, true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify(buildParameter(form)));
+    xhr.send(JSON.stringify(obj));
 }
 
 function querySearch() {
     const searchValue = document.getElementById("search-area").value;
-    let url = `${window.location.pathname}?keyword=${searchValue}`;
-    window.history.pushState({id: ++id, url: window.location.origin + url, title: document.title, hasParam: true}, "", url);
-    loadPage(url, true);
+    let elm = document.getElementById("date-filter");
+    let url = `${window.location.pathname}?`;
+    let hasParam = true;
+
+    if(searchValue == null || searchValue.trim() == ""){
+        //console.log(elm.value);
+        if(elm != null && elm.value != null && elm.value != ""){
+            url = url + `filter=${document.title == "Trip Manager" ? "departureDate" : "bookedTime"}&keyword=${elm.value}`;
+        } else {
+            url = `${window.location.pathname}`;
+            hasParam = false;
+        }
+    } else {
+        const filter = document.getElementById("filter-select").value;
+        if(elm != null && elm.value != null && elm.value != ""){
+            url = url + `filter=${document.title == "Trip Manager" ? "departureDate" : "bookedTime"}&keyword=${elm.value}&`;
+        }
+        url = url + `filter=${filter}&keyword=${searchValue.trim()}`;
+    }
+    window.history.pushState({id: ++id, url: window.location.origin + url, title: document.title, hasParam: hasParam}, "", url);
+    loadPage(url, hasParam);
 }

@@ -19,6 +19,7 @@ form > table > tbody > tr > td > select
     width: 100%;
     border: none;
     border-radius: calc(var(--border-radius) - 1px);
+    background: none;
 }
 
 form > table > tbody > tr > td > input:focus{

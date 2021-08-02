@@ -21,6 +21,20 @@
 <main id="main">
     <jsp:include page="${page}"/>
 </main>
+<div id="status-bar">
+    <div id="added-status" class="status-message success hidden">
+        <span class="material-icons-round success">check_circle</span>
+        Added to database
+    </div>
+    <div id="updated-status" class="status-message success hidden">
+        <span class="material-icons-round success">check_circle</span>
+        Updated
+    </div>
+    <div id="db-error-status"  class="status-message error hidden">
+        <span class="material-icons-round error">error</span>
+        Database connection error
+    </div>
+</div>
 <footer></footer>
 </body>
 </html>

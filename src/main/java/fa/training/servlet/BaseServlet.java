@@ -18,6 +18,7 @@ public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
     private final static String JSP_ROOT = "/jsp/";
     protected String addFormTitle = "Add";
     protected String editFormTitle = "Detail";
+    protected Meta[] searchableMeta;
 
     public abstract Class<? extends Meta> getMeta();
 
@@ -85,6 +86,7 @@ public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
             Meta[] metaFilter = new Meta[filter.length];
             for (int i = 0; i < filter.length; i++) {
                 metaFilter[i] = (Meta) getMeta().getDeclaredMethod("getMeta", String.class).invoke(null, filter[i]);
+                System.out.println("Filtering: " + metaFilter[i].getFieldName());
             }
             return metaFilter;
         }
@@ -145,7 +147,7 @@ public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
 
                 if (index != -1) {
                     int maxPage;
-
+                    StringBuilder prm = new StringBuilder();
                     if (keyword == null) { //no keyword -> full list
                         maxPage = genericDAOInstance.getTotalPage();
                         if (index > maxPage) { //out of range
@@ -154,6 +156,22 @@ public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
                             resultList = genericDAOInstance.getList(index);
                         }
                     } else { //have keyword -> search
+                        if(filter[0].getType() == String.class) {
+                            request.setAttribute("keyword", keyword[0]);
+                            request.setAttribute("filter", filter[0].getFieldName());
+                        }
+                        else {
+                            request.setAttribute("date", keyword[0]);
+                        }
+                        if(filter.length > 1) {
+                            request.setAttribute("keyword", keyword[1]);
+                            request.setAttribute("filter", filter[1].getFieldName());
+                        }
+
+                        for(int i = 0; i < filter.length; i++){
+                            prm.append(String.format("filter=%s&keyword=%s&", filter[i].getFieldName(), keyword[i]));
+                        }
+
                         maxPage = genericDAOInstance.getTotalSearchPage(filter, keyword);
                         if (index > maxPage) { //out of range
 
@@ -161,6 +179,11 @@ public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
                             resultList = genericDAOInstance.search(filter, keyword, index);
                         }
                     }
+
+                    //prm.append(String.format("index=%s", index));
+                    request.setAttribute("prm", prm.toString());
+
+                    request.setAttribute("searchableMeta", searchableMeta);
                     request.setAttribute("resultList", resultList);
                     request.setAttribute("currentPage", index);
                     request.setAttribute("maxPage", maxPage);

@@ -36,6 +36,9 @@ public class BaseDAO<T extends BaseEntity<T>> {
         sql.append(String.format(" DENSE_RANK() OVER (ORDER BY `%s`) AS `sort` FROM `%s` WHERE ", metaList[0].getDBName() , tableName));
 
         for (int i = 0; i < filter.length; i++) {
+            if (i > 0) {
+                sql.append("AND ");
+            }
             keyword[i] = keyword[i].trim();
             if (filter[i].isExclusive()) {
                 sql.append(String.format("`%s` = ? ", filter[i].getDBName()));
@@ -43,12 +46,10 @@ public class BaseDAO<T extends BaseEntity<T>> {
                 keyword[i] = "%" + keyword[i] + "%";
                 sql.append(String.format("`%s` LIKE ? ", filter[i].getDBName()));
             }
-            if (i > 0) {
-                sql.append("AND ");
-            }
             args[i] = keyword[i];
         }
         sql.append(") tbl");
+        System.out.println(sql);
         ResultSet resultSet = null;
         try {
             resultSet = getResultSet(sql.toString(), args);
@@ -206,14 +207,14 @@ public class BaseDAO<T extends BaseEntity<T>> {
 
         for (int i = 0; i < filter.length; i++) {
             keyword[i] = keyword[i].trim();
+            if (i > 0) {
+                sql.append("AND ");
+            }
             if (filter[i].isExclusive()) {
                 sql.append(String.format("`%s` = ? ", filter[i].getDBName()));
             } else {
                 keyword[i] = "%" + keyword[i] + "%";
                 sql.append(String.format("`%s` LIKE ? ", filter[i].getDBName()));
-            }
-            if (i > 0) {
-                sql.append("AND ");
             }
             args[i] = keyword[i];
         }

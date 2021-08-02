@@ -12,42 +12,48 @@
     <tbody>
     <c:if test="${not empty editing}">
         <tr>
-            <td class="required">ID</td>
+            <td>ID</td>
             <td>
                 <div>${detail.id}</div>
             </td>
         </tr>
     </c:if>
-    <tr>
+    <tr id="${ParkingLotMeta.NAME.fieldName}-row" func="checkNull">
         <td class="required">Name</td>
-        <td><input name="${ParkingLotMeta.NAME.fieldName}" type="text" value="${detail.name}"
-                   placeholder="Enter parking lot name"></td>
+        <td>
+            <input name="${ParkingLotMeta.NAME.fieldName}" type="text" value="${detail.name}" maxlength="50"
+                   placeholder="Enter parking lot name">
+            <div id="error-${ParkingLotMeta.NAME.fieldName}-1" class="error hidden">This field is required</div>
+        </td>
     </tr>
-    <tr>
+    <tr id="${ParkingLotMeta.PLACE_ID.fieldName}-row" func="checkNull">
         <td class="required">Place</td>
         <td>
             <select name="${ParkingLotMeta.PLACE_ID.fieldName}">
-                <option disabled selected>Select place</option>
+                <option selected value="">Select place</option>
                 <c:forEach items="${placeList}" var="place">
                     <option value="${place.id}"
                             <c:if test="${place.id eq detail.placeId}">selected</c:if>
                     >${place.name}</option>
                 </c:forEach>
             </select>
+            <div id="error-${ParkingLotMeta.PLACE_ID.fieldName}-1" class="error hidden">This field is required</div>
         </td>
     </tr>
-    <tr>
+    <tr id="${ParkingLotMeta.AREA.fieldName}-row" func="checkNull">
         <td class="required">Area</td>
         <td>
-            <input name="${ParkingLotMeta.AREA.fieldName}" type="text" placeholder="Enter area"
+            <input name="${ParkingLotMeta.AREA.fieldName}" type="text" placeholder="Enter area" min="0"
                    value="${detail.area}">
+            <div id="error-${ParkingLotMeta.AREA.fieldName}-1" class="error hidden">This field is required</div>
         </td>
     </tr>
-    <tr>
+    <tr id="${ParkingLotMeta.PRICE.fieldName}-row" func="checkNull">
         <td class="required">Price</td>
         <td>
-            <input name="${ParkingLotMeta.PRICE.fieldName}" type="text" placeholder="Enter price"
+            <input name="${ParkingLotMeta.PRICE.fieldName}" type="text" placeholder="Enter price" min="0"
                    value="${detail.price}">
+            <div id="error-${ParkingLotMeta.PRICE.fieldName}-1" class="error hidden">This field is required</div>
         </td>
     </tr>
     </tbody>

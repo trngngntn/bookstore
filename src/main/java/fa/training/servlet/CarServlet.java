@@ -38,9 +38,10 @@ public class CarServlet extends BaseServlet<Car> {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         addFormTitle = "Add a new car";
         editFormTitle = "Car detail";
+        searchableMeta = new CarMeta[]{CarMeta.LICENSE_PLATE, CarMeta.COLOR};
         setTitle(request, "Car Manager");
         setBaseJspPath("baseStaff.jsp");
-        try{
+        try {
             BookingOfficeDAO bookingOfficeDAO = new BookingOfficeDAO();
             request.setAttribute("officeList", bookingOfficeDAO.getAllName());
             ParkingLotDAO parkingLotDAO = new ParkingLotDAO();

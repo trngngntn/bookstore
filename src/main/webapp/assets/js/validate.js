@@ -1,144 +1,44 @@
-function checkFullname(){
-    var title = document.getElementById("fullname");
-    var errNameEmpty = document.getElementById("err-name-empty");
-    var errNameLength = document.getElementById("err-name-length");
-    if(title.value == ""){
-        errNameEmpty.className = "";
-        errNameLength.className = "hidden";
-        return 0;
-    } else if (title.value.length > 50){
-        errNameEmpty.className = "hidden";
-        errNameLength.className = "";
-        return 0;
-    } else {
-        errNameEmpty.className = "hidden";
-        errNameLength.className = "hidden";
-        return 1;
-    }
+var old;
+
+function duplicate(){
+    old = buildParameter(document.getElementById("edit-form"), 2);
+    console.log("DUPLICATED");
 }
 
-function checkPrice(){
-    var price = document.getElementById("price");
-    var errPriceEmpty = document.getElementById("err-price-empty");
-    var errPriceLength = document.getElementById("err-price-range");
-    if(price.value == ""){
-        errPriceEmpty.className = "";
-        errPriceLength.className = "hidden";
-        return 0;
-    } else if(price.value < 0){
-        errPriceEmpty.className = "hidden";
-        errPriceLength.className = "";
-        return 0;
-    } else {
-        errPriceEmpty.className = "hidden";
-        errPriceLength.className = "hidden";
-        return 1;
-    }
+function checkString(value){
+    console.log("checking");
+    return (value == null || value.trim() == "") ? 1 : 0;
 }
 
-function checkAuthorId(){
-    var author = document.getElementById("author");
-    var errAuthorEmpty = document.getElementById("err-author-empty");
-    if(author.value == ""){
-        errAuthorEmpty.className = "";
-        return 0;
-    } else {
-        errAuthorEmpty.className = "hidden";
-        return 1;
-    }
+function checkPhone(value){
+    if(value == null || value.trim() == "") return 1;
+    else if(value.match(/(\d){8,}/g)) return 0;
+    else return 2;
 }
 
-function checkStatus(){
-    var status = document.querySelector('input[name="status"]:checked');
-    var errStatusEmpty = document.getElementById("err-status-empty");
-    if(status == null){
-        errStatusEmpty.className = "";
-        return 0;
-    } else {
-        errStatusEmpty.className = "hidden";
-        return 1;
-    }
+function checkNull(value){
+    return (value == null || value.trim() == "") ? 1 : 0;
 }
 
-function checkAddBookFields(){
-    var title = document.getElementById("title");
-    var price = document.getElementById("price");
-    var author = document.getElementById("author");
-    var addBookForm = document.getElementById("form-add-book");
-    var f = 1;
-    if(!checkStatus()){
-        author.focus();
-        f = 0;
-    }
-    if(!checkAuthorId()){
-        author.focus();
-        f = 0;
-    }
-    if(!checkPrice()){
-        price.focus();
-        f = 0;
-    }
-    if(!checkTitle()) {
-        title.focus();
-        f = 0;
-    }
-    if(f == 1) {
-        addBookForm.submit();
-    }
+function checkDOB(value){
+    if(value == null || value.trim() == "") return 1;
+    else if(value >= new Date()) return 2;
+    else return 0;
+}
+function checkEmail(value){
+    if(value == null || value.trim() == "") return 1;
+    else if(value.match(/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+/g)) return 0;
+    else return 2;
 }
 
-function checkUpdBookFields(){
-    var title = document.getElementById("title");
-    var price = document.getElementById("price");
-    var author = document.getElementById("author");
-    var updBookForm = document.getElementById("form-update-book");
-    var f = 1;
-    if(!checkStatus()){
-        author.focus();
-        f = 0;
-    }
-    if(!checkAuthorId()){
-        author.focus();
-        f = 0;
-    }
-    if(!checkPrice()){
-        price.focus();
-        f = 0;
-    }
-    if(!checkTitle()) {
-        title.focus();
-        f = 0;
-    }
-    if(f == 1) {
-        updBookForm.submit();
-    }
+function checkAccount(value){
+    if(value == null || value.trim() == "") return 1;
+    //else if(value.match(/\*/g)) return 0;
+    else return 0;
 }
 
-function checkAuthorName(){
-    var author = document.getElementById("author");
-    var errAuthorEmpty = document.getElementById("err-author-empty");
-    var errAuthorLength = document.getElementById("err-author-length");
-    if(author.value == ""){
-        errAuthorEmpty.className = "";
-        errAuthorLength.className = "hidden";
-        return 0;
-    } else if (author.value.length > 50){
-        errAuthorEmpty.className = "hidden";
-        errAuthorLength.className = "";
-        return 0;
-    } else {
-        errAuthorEmpty.className = "hidden";
-        errAuthorLength.className = "hidden";
-        return 1;
-    }
-}
-
-function checkAddAuthorFields(){
-    var author = document.getElementById("author");
-    var addAuthorForm = document.getElementById("form-add-author");
-    if(!checkAuthorName()){
-        author.focus();
-    } else {
-        addAuthorForm.submit();
-    }
+function checkPassword(value){
+    if(value == null || value.trim() == "") return 1;
+    else if(value.match(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}/g)) return 0;
+    else return 2;
 }

@@ -25,6 +25,7 @@ public class EmployeeServlet extends BaseServlet<Employee> {
         //using template
         addFormTitle = "Add a new employee";
         editFormTitle = "Employee detail";
+        searchableMeta = new EmployeeMeta[] {EmployeeMeta.NAME, EmployeeMeta.PHONE, EmployeeMeta.ADDRESS, EmployeeMeta.EMAIL, EmployeeMeta.ACCOUNT};
         setTitle(request, "Employee Manager");
         setBaseJspPath("baseHR.jsp");
         try {

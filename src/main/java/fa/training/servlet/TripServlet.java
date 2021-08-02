@@ -19,8 +19,9 @@ public class TripServlet extends BaseServlet<Trip> {
     }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        addFormTitle = "Add a new parking lot";
-        editFormTitle = "Parking lot detail";
+        addFormTitle = "Add a new trip";
+        editFormTitle = "Trip detail";
+        searchableMeta = new TripMeta[] {TripMeta.DESTINATION, TripMeta.DRIVER, TripMeta.CAR_TYPE};
         setTitle(request, "Trip Manager");
         setBaseJspPath("baseStaff.jsp");
         try{

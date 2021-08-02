@@ -9,22 +9,7 @@
 <%@ page import="fa.training.utils.DateTimeUtils" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
-    <div class="bar-action">
-        <button class="icon-button align-left" onclick="toAdd()">
-            <i class="material-icons-round">add</i>
-            <span class="button-label">Add</span>
-        </button>
-        <div class="inline-block">
-            <input id="search-area" type="text" placeholder="Search">
-            <button id="search-button" class="icon-button">
-                <i class="material-icons-round">search</i>
-                <span class="button-label">Search</span>
-            </button>
-        </div>
-        <select class="align-right">
-            <option>Name</option>
-        </select>
-    </div>
+    <jsp:include page="../common/common-bar-action.jsp"/>
     <div>
         <table>
             <thead>

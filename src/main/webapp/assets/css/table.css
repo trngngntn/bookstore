@@ -64,3 +64,18 @@ tr:focus{
     outline: none;
     background-color: var(--accent-light);
 }
+
+td > .error{
+    font-size: .85rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+}
+
+tr.invalid{
+    background-color: #eaacb3;
+    /*box-shadow: 0px 1px 2px 0 #b3361d, 0px -1px 2px 0 #b3361d, -1px 0px 2px 0 #b3361d, 1px 0px 2px 0 #b3361d;*/
+}
+
+tr.invalid > td > input:focus{
+    box-shadow: 0px 1px 2px 0 #b3361d, 0px -1px 2px 0 #b3361d, -1px 0px 2px 0 #b3361d, 1px 0px 2px 0 #b3361d;
+}

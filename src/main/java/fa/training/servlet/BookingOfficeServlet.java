@@ -23,6 +23,7 @@ public class BookingOfficeServlet extends BaseServlet<BookingOffice> {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         addFormTitle = "Add a new office";
         editFormTitle = "Office detail";
+        searchableMeta = new BookingOfficeMeta[] {BookingOfficeMeta.NAME, BookingOfficeMeta.PHONE, BookingOfficeMeta.PLACE};
         setTitle(request, "Booking Office Manager");
         setBaseJspPath("baseStaff.jsp");
         try {
