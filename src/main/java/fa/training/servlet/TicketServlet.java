@@ -5,6 +5,7 @@ import fa.training.dao.TripDAO;
 import fa.training.entity.Ticket;
 import fa.training.meta.Meta;
 import fa.training.meta.TicketMeta;
+import fa.training.utils.ResultFilter;
 
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -16,8 +17,8 @@ public class TicketServlet extends BaseServlet<Ticket> {
     }
 
     @Override
-    protected Meta getDefaultFilter() {
-        return TicketMeta.CUSTOMER_NAME;
+    protected ResultFilter[] getResultFilter() {
+        return new ResultFilter[]{ResultFilter.TRIP, ResultFilter.LICENSE_PLATE, ResultFilter.CUSTOMER};
     }
 
     @Override
@@ -31,13 +32,17 @@ public class TicketServlet extends BaseServlet<Ticket> {
         TripDAO tripDAO = new TripDAO();
         Ticket detail = (Ticket) request.getAttribute("detail");
         request.setAttribute("tripListNotFull", tripDAO.getAllDestNotFull(detail.getTripId()));
+        CarDAO carDAO = new CarDAO();
+        request.setAttribute("carListByTrip", carDAO.searchAll(
+                new ResultFilter[]{ResultFilter.TRIP_SP},
+                new String[]{detail.getTripId() + ""}
+                ));
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         addFormTitle = "Add a new ticket";
         editFormTitle = "Ticket detail";
-        searchableMeta = new TicketMeta[] {TicketMeta.LICENSE_PLATE, TicketMeta.CUSTOMER_NAME};
         setTitle(request, "Ticket Manager");
         setBaseJspPath("baseStaff.jsp");
         try{

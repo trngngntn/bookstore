@@ -6,9 +6,34 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="fa.training.utils.ResultFilter" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
     <jsp:include page="../common/common-bar-action.jsp"/>
+    <div class="hidden" id="filter">
+        <form id="filter-form">
+            <br>
+            <label id="filter-form-label"> Advanced filters: </label>
+            <label class="filter-toggle">
+                <input class="filter-toggle-box" type="checkbox"
+                       onchange="clearInput('${ResultFilter.STATUS.label}')"
+                       name="${ResultFilter.STATUS.label}-check" ${resultFilters.contains(ResultFilter.STATUS)?"checked":""}>
+                <span class="filter-name">${ResultFilter.STATUS.display}</span>
+                <select id="${ResultFilter.STATUS.label}-input" name="${ResultFilter.STATUS.label}"
+                        class="filter-value">
+                    <option disabled selected></option>
+                    <option value="1"
+                    ${resultFilters.contains(ResultFilter.STATUS) && keywords[resultFilters.indexOf(ResultFilter.STATUS)].equals("1")?"selected":""}>
+                        Occupied
+                    </option>
+                    <option value="0"
+                    ${resultFilters.contains(ResultFilter.STATUS) && keywords[resultFilters.indexOf(ResultFilter.STATUS)].equals("0")?"selected":""}>
+                        Blank
+                    </option>
+                </select>
+            </label>
+        </form>
+    </div>
     <div>
         <table>
             <thead>
@@ -24,7 +49,7 @@
             </thead>
             <tbody>
             <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}')">
+                <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}')">
                     <td>${item.id}</td>
                     <td>${item.name}</td>
                     <td>
@@ -46,4 +71,4 @@
         <jsp:include page="../common/common-pagination.jsp"></jsp:include>
     </div>
 </div>
-<jsp:include page="../common/common-form.jsp" />
+<jsp:include page="../common/common-form.jsp"/>

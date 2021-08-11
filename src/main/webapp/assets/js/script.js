@@ -13,7 +13,7 @@ function initPage() {
             id = window.history.state.id;
         }
     }
-    if(document.getElementById("edit-form") != null){
+    if (document.getElementById("edit-form") != null) {
         duplicate();
     }
 }
@@ -28,7 +28,7 @@ window.addEventListener('popstate', (event) => {
 })
 
 function changePage(url, hasParam = false, title = document.title) {
-    if(url[0] == '?'){
+    if (url[0] == '?') {
         url = window.location.pathname + url;
     }
     window.history.pushState({id: ++id, url: url, title: title, hasParam: hasParam}, "", url);
@@ -41,7 +41,7 @@ function changePage(url, hasParam = false, title = document.title) {
 
 function changePageIndex(index) {
     console.log(window.location.search);
-    if (window.location.search == null || window.location.search == "" ) {
+    if (window.location.search == null || window.location.search == "") {
         changePage(`${window.location.pathname}?index=${index}`, true);
     } else {
         changePage(`${window.location.pathname}&index=${index}`, true);
@@ -63,7 +63,7 @@ function loadPage(url, hasParam) {
 function updatePage(newContent) {
     const main = document.getElementById("main");
     main.innerHTML = newContent;
-    if(document.getElementById("edit-form") != null){
+    if (document.getElementById("edit-form") != null) {
         duplicate();
     }
 }
@@ -74,12 +74,12 @@ function backToList() {
     listView.className = "view";
     addView.className = "view hide-top";
     let rows = document.querySelectorAll(".invalid");
-    rows.forEach(function(row){
+    rows.forEach(function (row) {
         row.className = "";
     });
 
     let errors = document.querySelectorAll(".error:not(.status-message)");
-    errors.forEach(function(error){
+    errors.forEach(function (error) {
         error.className = "error hidden";
     });
 }
@@ -91,17 +91,17 @@ function toAdd() {
     hideStatus();
 }
 
-function hideStatus(){
+function hideStatus() {
     document.getElementById("added-status").className = "status-message success hidden";
     document.getElementById("updated-status").className = "status-message success hidden";
     document.getElementById("db-error-status").className = "status-message error hidden";
 }
 
-function hideErrors(row){
+function hideErrors(row) {
     let child = row.childNodes[3].childNodes;
-    for(let i = 0; i < child.length; i++){
+    for (let i = 0; i < child.length; i++) {
         //console.log(child[i]);
-        if(child[i].className == "error"){
+        if (child[i].className == "error") {
             child[i].className = "error hidden";
         }
     }
@@ -113,13 +113,13 @@ function buildParameter(form, type) {
     let failed = 0;
     for (let entry of formData.entries()) {
         jsonObject[entry[0]] = entry[1].trim();
-        if((type == 1 && entry[1] != old[entry[0]]) || type == 0){
+        if ((type == 1 && entry[1] != old[entry[0]]) || type == 0) {
             let elmRow = document.getElementById(`${entry[0]}-row`);
-            if(elmRow.getAttribute("func") == "") continue;
+            if (elmRow.getAttribute("func") == "") continue;
             let func = window[elmRow.getAttribute("func")];
-            console.log("FUNC: " + elmRow.getAttribute("func") + " : " +`${entry[0]}-row`);
+            console.log("FUNC: " + elmRow.getAttribute("func") + " : " + `${entry[0]}-row`);
             let checkResult = func(entry[1].trim());
-            if(checkResult != 0){
+            if (checkResult != 0) {
                 failed = 1;
                 elmRow.className = "invalid";
                 hideErrors(elmRow);
@@ -137,12 +137,12 @@ function buildParameter(form, type) {
 function submitAddForm() {
     const form = document.getElementById("add-form");
     let obj = buildParameter(form, 0);
-    if(obj == 0) return;
+    if (obj == 0) return;
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(xhr.responseText);
-            if(xhr.responseText == "success"){
+            if (xhr.responseText == "success") {
                 changePage(window.location.pathname);
                 document.getElementById("added-status").className = "status-message success";
 
@@ -159,12 +159,12 @@ function submitAddForm() {
 function submitEditForm() {
     const form = document.getElementById("edit-form");
     let obj = buildParameter(form, 1);
-    if(obj == 0) return;
+    if (obj == 0) return;
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             console.log(xhr.responseText);
-            if(xhr.responseText == "success"){
+            if (xhr.responseText == "success") {
                 let url = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
                 changePage(url);
                 document.getElementById("updated-status").className = "status-message success";
@@ -178,27 +178,118 @@ function submitEditForm() {
     xhr.send(JSON.stringify(obj));
 }
 
+var delId;
+
+function submitDelete() {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(xhr.responseText);
+            if (xhr.responseText == "success") {
+                changePage(window.location.pathname);
+                hideWindow();
+                document.getElementById("deleted-status").className = "status-message success";
+            } else {
+                hideWindow();
+                document.getElementById("db-error-status").className = "status-message error";
+            }
+        }
+    };
+    xhr.open("DELETE", `${window.location.pathname}/${delId}`, true);
+    xhr.send();
+}
+
+function doDelete(id) {
+    let elm = document.getElementById("blur");
+    elm.className = "blur";
+    delId = id;
+    event.preventDefault();
+    event.stopPropagation();
+    //changePage(window.location.pathname);
+}
+
+function hideWindow() {
+    let elm = document.getElementById("blur");
+    elm.className = "blur hidden";
+}
+
+function buildSearchParameter(form) {
+    let formData = new FormData(form);
+    let param = "";
+    for (let entry of formData.entries()) {
+        if (!entry[0].endsWith("check") && (entry[1] != "")) {
+            if (param != "") {
+                param = param + "&";
+            }
+            param = `${param}filter=${entry[0]}&keyword=${entry[1]}`;
+        }
+    }
+    return param;
+}
+
 function querySearch() {
-    const searchValue = document.getElementById("search-area").value;
-    let elm = document.getElementById("date-filter");
+    const searchValue = document.getElementById("search-area");
+    const filterForm = document.getElementById("filter-form");
     let url = `${window.location.pathname}?`;
+    let param = buildSearchParameter(filterForm);
     let hasParam = true;
 
-    if(searchValue == null || searchValue.trim() == ""){
-        //console.log(elm.value);
-        if(elm != null && elm.value != null && elm.value != ""){
-            url = url + `filter=${document.title == "Trip Manager" ? "departureDate" : "bookedTime"}&keyword=${elm.value}`;
+    if (searchValue.value == null || searchValue.value.trim() == "") {
+        if (param != "") {
+            url = url + param;
         } else {
             url = `${window.location.pathname}`;
             hasParam = false;
         }
     } else {
-        const filter = document.getElementById("filter-select").value;
-        if(elm != null && elm.value != null && elm.value != ""){
-            url = url + `filter=${document.title == "Trip Manager" ? "departureDate" : "bookedTime"}&keyword=${elm.value}&`;
-        }
-        url = url + `filter=${filter}&keyword=${searchValue.trim()}`;
+        url = url + `filter=${searchValue.getAttribute("name")}&keyword=${searchValue.value.trim()}${param == "" ? "" : "&" + param}`;
     }
-    window.history.pushState({id: ++id, url: window.location.origin + url, title: document.title, hasParam: hasParam}, "", url);
+    window.history.pushState({
+        id: ++id,
+        url: window.location.origin + url,
+        title: document.title,
+        hasParam: hasParam
+    }, "", url);
     loadPage(url, hasParam);
+}
+
+function toggleFilter() {
+    let filter = document.getElementById("filter");
+    if (filter.className == "") {
+        filter.className = "hidden";
+    } else {
+        filter.className = "";
+    }
+}
+
+function clearInput(id) {
+    let input = document.getElementById(`${id}-input`);
+    input.value = null;
+    console.log("delete " + id);
+}
+
+function queryCar(tripId) {
+    if (tripId == "") {
+        document.getElementById("licensePlateSelect").innerHTML = `<option selected value="">Select trip to retrieve car list</option>`;
+        return;
+    }
+    let url = `${window.location.pathname}?`;
+    let hasParam = true;
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            let lpSel = document.getElementById("licensePlateSelect");
+            if (xhr.responseText == "") {
+                lpSel.innerHTML = `<option selected value="">No car is avaiable for selected trip</option>`;
+                return;
+            }
+            const carList = JSON.parse(xhr.responseText);
+            lpSel.innerHTML = `<option selected value="">Select license plate</option>`;
+            for (let i = 0; i < carList.length; i++) {
+                lpSel.innerHTML += `\n<option value="${carList[i].licensePlate}">${carList[i].licensePlate}</option>`;
+            }
+        }
+    };
+    xhr.open("GET", `/CPMS/car?json&all&filter=trip_sp&keyword=${tripId}`, true);
+    xhr.send();
 }

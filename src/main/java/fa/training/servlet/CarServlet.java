@@ -5,6 +5,7 @@ import fa.training.dao.ParkingLotDAO;
 import fa.training.entity.Car;
 import fa.training.meta.CarMeta;
 import fa.training.meta.Meta;
+import fa.training.utils.ResultFilter;
 
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -17,8 +18,8 @@ public class CarServlet extends BaseServlet<Car> {
     }
 
     @Override
-    protected Meta getDefaultFilter() {
-        return CarMeta.LICENSE_PLATE;
+    protected ResultFilter[] getResultFilter() {
+        return new ResultFilter[]{ResultFilter.LICENSE_PLATE, ResultFilter.TYPE, ResultFilter.COLOR, ResultFilter.OFFICE};
     }
 
     @Override
@@ -38,7 +39,6 @@ public class CarServlet extends BaseServlet<Car> {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         addFormTitle = "Add a new car";
         editFormTitle = "Car detail";
-        searchableMeta = new CarMeta[]{CarMeta.LICENSE_PLATE, CarMeta.COLOR};
         setTitle(request, "Car Manager");
         setBaseJspPath("baseStaff.jsp");
         try {

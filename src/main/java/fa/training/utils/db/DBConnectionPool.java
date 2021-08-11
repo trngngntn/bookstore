@@ -40,7 +40,7 @@ public class DBConnectionPool {
                 conn = cf.get();
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
-                throw new Exception();
+                throw new DBException();
             }
         }
         busyConn.add(conn);
@@ -62,7 +62,7 @@ public class DBConnectionPool {
         return freeConn.get(0);
     }
 
-    private static DBConnection createConnection(){
+    private static DBConnection createConnection() throws DBException {
         return new DBConnection(CONN_STR, CONN_USR, CONN_PWD);
     }
 

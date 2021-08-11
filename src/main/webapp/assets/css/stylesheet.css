@@ -4,6 +4,7 @@
 @import url("form.css");
 @import url("input.css");
 @import url("table.css");
+@import url("filter.css");
 
 :root {
     --main-bkgnd-light: rgb(255, 255, 255);
@@ -197,4 +198,36 @@ h1 {
     color: #b3361d;
     font-size: .65rem;
     vertical-align: top;
+}
+
+.blur{
+    position: absolute;
+    top: 4rem;
+    background: rgba(94,94,94,0.3);
+    left: 20%;
+    width: 80%;
+    height: calc(100% - 4rem);
+    z-index: 20;
+    backdrop-filter: blur(5px);
+}
+
+.windows{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    background: var(--main-bkgnd);
+    width: 40%;
+    height: 15rem;
+    transform: translate(-50%, -50%);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+}
+
+.windows-bottom{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+    text-align: right;
+    width: 100%;
 }

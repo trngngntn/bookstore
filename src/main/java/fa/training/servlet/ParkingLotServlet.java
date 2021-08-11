@@ -4,6 +4,7 @@ import fa.training.dao.ParkingLotDAO;
 import fa.training.entity.ParkingLot;
 import fa.training.meta.Meta;
 import fa.training.meta.ParkingLotMeta;
+import fa.training.utils.ResultFilter;
 
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -15,8 +16,8 @@ public class ParkingLotServlet extends BaseServlet<ParkingLot> {
     }
 
     @Override
-    protected Meta getDefaultFilter() {
-        return ParkingLotMeta.NAME;
+    protected ResultFilter[] getResultFilter() {
+        return new ResultFilter[]{ResultFilter.NAME, ResultFilter.STATUS};
     }
 
     @Override
@@ -24,7 +25,6 @@ public class ParkingLotServlet extends BaseServlet<ParkingLot> {
         //using template
         addFormTitle = "Add a new parking lot";
         editFormTitle = "Parking lot detail";
-        searchableMeta = new ParkingLotMeta[] {ParkingLotMeta.NAME};
         setTitle(request, "Parking Lot Manager");
         setBaseJspPath("baseStaff.jsp");
         try {

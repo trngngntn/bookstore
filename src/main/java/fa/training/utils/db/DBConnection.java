@@ -9,12 +9,13 @@ public class DBConnection{
     private boolean used;
     private Thread close;
 
-    public DBConnection(String connStr, String usr, String pwd){
+    public DBConnection(String connStr, String usr, String pwd) throws DBException {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
             connection = DriverManager.getConnection(connStr, usr, pwd);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
+            throw new DBException("UnableToCreateConnection");
         }
     }
 

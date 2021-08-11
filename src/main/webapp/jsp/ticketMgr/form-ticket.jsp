@@ -37,7 +37,7 @@
     <tr id="${TicketMeta.TRIP_ID.fieldName}-row" func="checkNull">
         <td class="required">Trip</td>
         <td>
-            <select name="${TicketMeta.TRIP_ID.fieldName}">
+            <select name="${TicketMeta.TRIP_ID.fieldName}" onchange="queryCar(this.value)">
                 <option selected value="">Select trip</option>
                 <c:forEach items="${tripListNotFull}" var="trip">
                     <option value="${trip.id}"
@@ -51,9 +51,9 @@
     <tr id="${TicketMeta.LICENSE_PLATE.fieldName}-row" func="checkNull">
         <td class="required">License plate</td>
         <td>
-            <select name="${TicketMeta.LICENSE_PLATE.fieldName}">
-                <option selected value="">Select license plate</option>
-                <c:forEach items="${carList}" var="car">
+            <select name="${TicketMeta.LICENSE_PLATE.fieldName}" id="licensePlateSelect">
+                <option selected value="">Select trip to retrieve car list</option>
+                <c:forEach items="${carListByTrip}" var="car">
                     <option value="${car.licensePlate}"
                             <c:if test="${car.licensePlate eq detail.licensePlate}">selected</c:if>
                     >${car.licensePlate}</option>

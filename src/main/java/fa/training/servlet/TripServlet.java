@@ -3,6 +3,7 @@ package fa.training.servlet;
 import fa.training.entity.Trip;
 import fa.training.meta.Meta;
 import fa.training.meta.TripMeta;
+import fa.training.utils.ResultFilter;
 
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -14,14 +15,14 @@ public class TripServlet extends BaseServlet<Trip> {
     }
 
     @Override
-    protected Meta getDefaultFilter() {
-        return TripMeta.DESTINATION;
+    protected ResultFilter[] getResultFilter() {
+        return new ResultFilter[]{ResultFilter.DESTINATION, ResultFilter.DATE, ResultFilter.TO_DATE, ResultFilter.FROM_DATE};
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         addFormTitle = "Add a new trip";
         editFormTitle = "Trip detail";
-        searchableMeta = new TripMeta[] {TripMeta.DESTINATION, TripMeta.DRIVER, TripMeta.CAR_TYPE};
         setTitle(request, "Trip Manager");
         setBaseJspPath("baseStaff.jsp");
         try{

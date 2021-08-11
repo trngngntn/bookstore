@@ -14,23 +14,14 @@
         <span class="button-label">Add</span>
     </button>
     <div class="inline-block">
-        <input id="search-area" type="text" placeholder="Search" value="${keyword}">
+        <input id="search-area" type="text" placeholder="Search" name="${filters[0].label}" value="${keyword}">
         <button id="search-button" class="icon-button" onclick="querySearch()">
             <i class="material-icons-round">search</i>
             <span class="button-label">Search</span>
         </button>
     </div>
-    <select id="filter-select" class="align-right">
-        <c:forEach items="${searchableMeta}" var="meta">
-            <option value="${meta.fieldName}"
-                <c:if test="${filter eq meta.fieldName}"> selected </c:if>
-            >${StringUtils.getDisplayName(meta.fieldName)}</option>
-        </c:forEach>
-    </select>
+    <button class="icon-button align-right" onclick="toggleFilter()">
+        <i class="material-icons-round">filter_list</i>
+        <span class="button-label">Filter</span>
+    </button>
 </div>
-<br>
-<c:if test="${pageTitle eq 'Trip Manager'}">
-    <div class="bar-action">
-        <input id="date-filter" class="align-right" type="date" value="${date}">
-    </div>
-</c:if>

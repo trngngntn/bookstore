@@ -5,7 +5,7 @@ import fa.training.utils.validator.Validator;
 
 
 public abstract class BaseEntity<T> {
-    private Class<T> base;
+    private transient Class<T> base;
 
     public abstract Class<? extends Meta> getMeta();
 

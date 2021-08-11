@@ -7,7 +7,7 @@ import fa.training.utils.typeAdapter.DateTypeAdapter;
 
 import java.sql.Date;
 
-public class Employee extends BaseEntity<Employee>{
+public class Employee extends BaseEntity<Employee> {
     @Override
     public Class<EmployeeMeta> getMeta() {
         return EmployeeMeta.class;
@@ -101,7 +101,11 @@ public class Employee extends BaseEntity<Employee>{
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if ("".equals(email)) {
+            this.email = null;
+        } else {
+            this.email = email;
+        }
     }
 
     public void setAccount(String account) {

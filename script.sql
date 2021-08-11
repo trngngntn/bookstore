@@ -124,4 +124,4 @@ for each row
 	update `Trip` set `booked_ticket` = `booked_ticket` - 1 where old.`trip_id` = `Trip`.`id`;
 
 
-drop trigger `after_ticket_update`
+SELECT COUNT(*) FROM (SELECT  DENSE_RANK() OVER (ORDER BY `id`) AS `sort` FROM `Trip` WHERE `destination` LIKE CONCAT('%','a','%')) tbl

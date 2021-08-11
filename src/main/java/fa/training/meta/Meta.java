@@ -7,7 +7,6 @@ public interface Meta {
     public String getDBName();
     public Class getType();
     public Class<? extends Validator> getValidator();
-    public boolean isExclusive();
     /*public Class getEntityClass();
     public Class getDAOClass();
     public String getDBTableName();*/

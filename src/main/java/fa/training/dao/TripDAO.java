@@ -14,18 +14,6 @@ public class TripDAO extends BaseDAO<Trip> {
         super(TripMeta.class);
     }
 
-    @Override
-    public List<Trip> getList(int index) throws Exception {
-        return super.getList(index,
-                TripMeta.ID,
-                TripMeta.DESTINATION,
-                TripMeta.DEPARTURE_TIME,
-                TripMeta.DRIVER,
-                TripMeta.CAR_TYPE,
-                TripMeta.BOOKED_TICKET
-        );
-    }
-
     public List<Trip> getAllDest() throws Exception {
         final String SQL = "SELECT `id`,`destination` FROM `Trip`";
         ResultSet resultSet = null;

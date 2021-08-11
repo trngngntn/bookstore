@@ -1,0 +1,68 @@
+#filter-form{
+    text-align: left;
+}
+#filter-form > *{
+    margin-bottom: 0.25rem;
+}
+#filter-form-label{
+    font-size: 0.85rem;
+    display: block;
+    margin: .5rem 0;
+    font-weight: 400;
+}
+
+.filter-group{
+    display: inline-block;
+}
+.filter-group > *{
+    display: inline-block;
+}
+
+.filter-group-toggle, .filter-toggle-box{
+    display: none;
+}
+.filter-group-content{
+    display: inline-block;
+}
+
+.filter-group-label, .filter-name{
+    cursor: pointer;
+    display: inline-block;
+    line-height: 2rem;
+    font-weight: 400;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 0 .5rem;
+}
+
+.filter-group-toggle:checked ~ .filter-group-label{
+    display: none;
+}
+
+.filter-group-toggle:not(:checked) ~ .filter-group-content{
+    display: none;
+}
+
+.filter-toggle{
+    display: inline-block;
+    background-color: white;
+    height: 2rem;
+    border-radius: 1rem;
+}
+
+.filter-toggle:hover{
+    /*background-color: #e8f0fe;*/
+}
+
+.filter-toggle > .filter-value{
+    border: none;
+    background: none;
+}
+
+.filter-toggle > .filter-value:focus{
+    box-shadow: none;
+}
+
+.filter-toggle-box:not(:checked) ~ .filter-value{
+    display: none;
+}

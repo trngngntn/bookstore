@@ -3,6 +3,7 @@ package fa.training.dao;
 import fa.training.entity.BaseEntity;
 import fa.training.meta.Meta;
 import fa.training.utils.Parameters;
+import fa.training.utils.ResultFilter;
 import fa.training.utils.db.DBConnection;
 import fa.training.utils.db.DBConnectionPool;
 import fa.training.utils.db.DBConnectionUtils;
@@ -29,23 +30,18 @@ public class BaseDAO<T extends BaseEntity<T>> {
         }
     }
 
-    public int getTotalSearchPage(Meta[] filter, String[] keyword) throws Exception {
+    public int getTotalSearchPage(ResultFilter[] filter, String[] keyword) throws Exception {
         Object[] args = new Object[filter.length];
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT COUNT(*) FROM (SELECT ");
-        sql.append(String.format(" DENSE_RANK() OVER (ORDER BY `%s`) AS `sort` FROM `%s` WHERE ", metaList[0].getDBName() , tableName));
+        sql.append(String.format(" DENSE_RANK() OVER (ORDER BY `%s`) AS `sort` FROM `%s` WHERE ", metaList[0].getDBName(), tableName));
 
         for (int i = 0; i < filter.length; i++) {
             if (i > 0) {
-                sql.append("AND ");
+                sql.append(" AND ");
             }
             keyword[i] = keyword[i].trim();
-            if (filter[i].isExclusive()) {
-                sql.append(String.format("`%s` = ? ", filter[i].getDBName()));
-            } else {
-                keyword[i] = "%" + keyword[i] + "%";
-                sql.append(String.format("`%s` LIKE ? ", filter[i].getDBName()));
-            }
+            sql.append(filter[i].getSQL());
             args[i] = keyword[i];
         }
         sql.append(") tbl");
@@ -94,7 +90,7 @@ public class BaseDAO<T extends BaseEntity<T>> {
         }
 
         sql.deleteCharAt(sql.length() - 1);
-        sql.append(String.format(" FROM `%s`", meta.getDeclaredMethod("getDBTableName").invoke(null)));
+        sql.append(String.format(" FROM `%s`", tableName));
         sql.append(String.format(" WHERE `%s` = ?", metaList[0].getDBName()));
         ResultSet resultSet = null;
         try {
@@ -149,7 +145,6 @@ public class BaseDAO<T extends BaseEntity<T>> {
 
         sql.append(String.format(" DENSE_RANK() OVER (ORDER BY `%s`) AS `sort` FROM `%s`) tbl ", metaList[0].getDBName(), tableName));
         sql.append(" WHERE `sort` > ? AND `sort` <= ?");
-
         ResultSet resultSet = null;
         ArrayList<T> result = new ArrayList<>();
         try {
@@ -194,7 +189,43 @@ public class BaseDAO<T extends BaseEntity<T>> {
         return result;
     }
 
-    public List<T> search(Meta[] filter, String[] keyword, int index) throws Exception {
+    public List<T> searchAll(ResultFilter[] filter, String[] keyword) throws Exception {
+        Object[] args = new Object[filter.length];
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM (SELECT ");
+
+        for (Meta meta : metaList) {
+            if (meta.getDBName() != null)
+                sql.append(String.format("`%s`,", meta.getDBName()));
+        }
+        sql.append(String.format(" DENSE_RANK() OVER (ORDER BY `%s`) AS `sort` FROM `%s` WHERE ", metaList[0].getDBName(), tableName));
+
+        for (int i = 0; i < filter.length; i++) {
+            keyword[i] = keyword[i].trim();
+            if (i > 0) {
+                sql.append(" AND ");
+            }
+            sql.append(filter[i].getSQL());
+            args[i] = keyword[i];
+        }
+        sql.append(") tbl");
+        ResultSet resultSet = null;
+        ArrayList<T> result = new ArrayList<>();
+        try {
+            resultSet = getResultSet(sql.toString(), args);
+            while (resultSet.next()) {
+                result.add(parseResultSet(resultSet, metaList));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DBException();
+        } finally {
+            DBConnectionUtils.closeResultSet(resultSet);
+        }
+        return result;
+    }
+
+    public List<T> search(ResultFilter[] filter, String[] keyword, int index) throws Exception {
         Object[] args = new Object[filter.length + 2];
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT * FROM (SELECT ");
@@ -208,18 +239,13 @@ public class BaseDAO<T extends BaseEntity<T>> {
         for (int i = 0; i < filter.length; i++) {
             keyword[i] = keyword[i].trim();
             if (i > 0) {
-                sql.append("AND ");
+                sql.append(" AND ");
             }
-            if (filter[i].isExclusive()) {
-                sql.append(String.format("`%s` = ? ", filter[i].getDBName()));
-            } else {
-                keyword[i] = "%" + keyword[i] + "%";
-                sql.append(String.format("`%s` LIKE ? ", filter[i].getDBName()));
-            }
+            sql.append(filter[i].getSQL());
             args[i] = keyword[i];
         }
         sql.append(") tbl WHERE `sort` > ? AND `sort` <= ?");
-
+        //System.out.println(sql);
         args[filter.length] = (index - 1) * Parameters.PAGINATION_ENTRY_COUNT;
         args[filter.length + 1] = index * Parameters.PAGINATION_ENTRY_COUNT;
 
@@ -309,6 +335,16 @@ public class BaseDAO<T extends BaseEntity<T>> {
         }
     }
 
+    public boolean delete(Object id) throws Exception {
+        final String SQL = String.format("DELETE FROM `%s` WHERE `%s` = ?", tableName, metaList[0].getDBName());
+        try {
+            return getResult(SQL.toString(), id) > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DBException();
+        }
+    }
+
     protected T parseResultSet(ResultSet resultSet, Meta... metaList) throws Exception {
         T result = entity.getDeclaredConstructor().newInstance();
         for (Meta meta : metaList) {
@@ -339,7 +375,7 @@ public class BaseDAO<T extends BaseEntity<T>> {
         int position = 0;
         for (Object arg : args) {
             ++position;
-            if (arg == null){
+            if (arg == null) {
                 statement.setNull(position, Types.CHAR);
                 continue;
             }

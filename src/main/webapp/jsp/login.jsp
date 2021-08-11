@@ -20,6 +20,15 @@
     <br><br>
     <input type="checkbox" id="cbx-remember" name="rem">
     <label for="cbx-remember">Remember Me</label>
+
+    <!--label class="checkbox-cont">
+        <input type="checkbox" name="" value="0">
+        <div class="checkbox" tabindex="0">
+            <div class="checkbox-dot"></div>
+        </div>
+        <span class="checkbox-label">Check</span>
+    </label-->
+
     <br><br>
     <button id="login-btn">Login</button>
     <br><br>

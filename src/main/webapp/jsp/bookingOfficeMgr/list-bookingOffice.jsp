@@ -6,9 +6,35 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="fa.training.utils.ResultFilter" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
     <jsp:include page="../common/common-bar-action.jsp"/>
+    <div class="hidden" id="filter">
+        <form id="filter-form">
+            <br>
+            <label id="filter-form-label"> Advanced filters: </label>
+            <label class="filter-toggle">
+                <input class="filter-toggle-box" type="checkbox"
+                       onchange="clearInput('${ResultFilter.TRIP.label}')"
+                       name="${ResultFilter.TRIP.label}-check" ${resultFilters.contains(ResultFilter.TRIP)?"checked":""}>
+                <span class="filter-name">${ResultFilter.TRIP.display}</span>
+                <input class="filter-value" type="text" name="${ResultFilter.TRIP.label}"
+                       id="${ResultFilter.TRIP.label}-input" placeholder="Enter trip"
+                       value="${resultFilters.contains(ResultFilter.TRIP)?keywords[resultFilters.indexOf(ResultFilter.TRIP)]:""}">
+            </label>
+            <br>
+            <label class="filter-toggle">
+                <input class="filter-toggle-box" type="checkbox"
+                       onchange="clearInput('${ResultFilter.PLACE.label}')"
+                       name="${ResultFilter.PLACE.label}-check" ${resultFilters.contains(ResultFilter.PLACE)?"checked":""}>
+                <span class="filter-name">${ResultFilter.PLACE.display}</span>
+                <input class="filter-value" type="text" name="${ResultFilter.PLACE.label}"
+                       id="${ResultFilter.PLACE.label}-input" placeholder="Enter place"
+                       value="${resultFilters.contains(ResultFilter.PLACE)?keywords[resultFilters.indexOf(ResultFilter.PLACE)]:""}">
+            </label>
+        </form>
+    </div>
     <div>
         <table>
             <thead>

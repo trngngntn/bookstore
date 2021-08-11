@@ -4,6 +4,7 @@ import fa.training.dao.EmployeeDAO;
 import fa.training.entity.Employee;
 import fa.training.meta.EmployeeMeta;
 import fa.training.meta.Meta;
+import fa.training.utils.ResultFilter;
 
 import javax.servlet.http.*;
 import java.io.IOException;
@@ -16,8 +17,8 @@ public class EmployeeServlet extends BaseServlet<Employee> {
     }
 
     @Override
-    protected Meta getDefaultFilter() {
-        return EmployeeMeta.NAME;
+    protected ResultFilter[] getResultFilter() {
+        return new ResultFilter[]{};
     }
 
     @Override
@@ -25,7 +26,6 @@ public class EmployeeServlet extends BaseServlet<Employee> {
         //using template
         addFormTitle = "Add a new employee";
         editFormTitle = "Employee detail";
-        searchableMeta = new EmployeeMeta[] {EmployeeMeta.NAME, EmployeeMeta.PHONE, EmployeeMeta.ADDRESS, EmployeeMeta.EMAIL, EmployeeMeta.ACCOUNT};
         setTitle(request, "Employee Manager");
         setBaseJspPath("baseHR.jsp");
         try {

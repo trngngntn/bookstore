@@ -44,6 +44,7 @@
 <main id="main">
     <jsp:include page="${page}"/>
 </main>
+<jsp:include page="common/common-dialog.jsp"/>
 <div id="status-bar">
     <div id="added-status" class="status-message success hidden">
         <span class="material-icons-round success">check_circle</span>
@@ -51,7 +52,11 @@
     </div>
     <div id="updated-status" class="status-message success hidden">
         <span class="material-icons-round success">check_circle</span>
-        Updated
+        Update successfully
+    </div>
+    <div id="deleted-status" class="status-message success hidden">
+        <span class="material-icons-round success">check_circle</span>
+        Delete successfully
     </div>
     <div id="db-error-status"  class="status-message error hidden">
         <span class="material-icons-round error">error</span>
