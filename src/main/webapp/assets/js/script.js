@@ -144,9 +144,10 @@ function submitAddForm() {
             console.log(xhr.responseText);
             if (xhr.responseText == "success") {
                 changePage(window.location.pathname);
+                showWindow("add-dialog");
                 document.getElementById("added-status").className = "status-message success";
-
             } else {
+                showWindow("error-dialog");
                 document.getElementById("db-error-status").className = "status-message error";
             }
         }
@@ -167,8 +168,10 @@ function submitEditForm() {
             if (xhr.responseText == "success") {
                 let url = window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/"));
                 changePage(url);
+                showWindow("update-dialog");
                 document.getElementById("updated-status").className = "status-message success";
             } else {
+                showWindow("error-dialog");
                 document.getElementById("db-error-status").className = "status-message error";
             }
         }
@@ -187,10 +190,12 @@ function submitDelete() {
             console.log(xhr.responseText);
             if (xhr.responseText == "success") {
                 changePage(window.location.pathname);
-                hideWindow();
+                hideWindow("confirm-dialog");
+                showWindow("delete-dialog");
                 document.getElementById("deleted-status").className = "status-message success";
             } else {
-                hideWindow();
+                hideWindow("confirm-dialog");
+                showWindow("error-dialog");
                 document.getElementById("db-error-status").className = "status-message error";
             }
         }
@@ -200,17 +205,25 @@ function submitDelete() {
 }
 
 function doDelete(id) {
-    let elm = document.getElementById("blur");
-    elm.className = "blur";
+    showWindow("confirm-dialog");
     delId = id;
     event.preventDefault();
     event.stopPropagation();
     //changePage(window.location.pathname);
 }
 
-function hideWindow() {
+function hideWindow(id) {
     let elm = document.getElementById("blur");
+    let dialog = document.getElementById(id);
     elm.className = "blur hidden";
+    dialog.className = "windows hidden";
+}
+
+function showWindow(id) {
+    let elm = document.getElementById("blur");
+    let dialog = document.getElementById(id);
+    elm.className = "blur";
+    dialog.className = "windows";
 }
 
 function buildSearchParameter(form) {
