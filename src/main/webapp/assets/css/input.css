@@ -106,7 +106,7 @@ input::placeholder{
 
 #search-area{
     padding-right: calc(6px + .5rem);
-    width: 100%;
+    width: 350px;
     padding-right: 2.5rem;
 }
 
