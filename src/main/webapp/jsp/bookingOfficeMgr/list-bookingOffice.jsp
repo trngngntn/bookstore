@@ -26,6 +26,16 @@
             <br>
             <label class="filter-toggle">
                 <input class="filter-toggle-box" type="checkbox"
+                       onchange="clearInput('${ResultFilter.PHONE.label}')"
+                       name="${ResultFilter.PHONE.label}-check" ${resultFilters.contains(ResultFilter.PHONE)?"checked":""}>
+                <span class="filter-name">${ResultFilter.PHONE.display}</span>
+                <input class="filter-value" type="text" name="${ResultFilter.PHONE.label}"
+                       id="${ResultFilter.PHONE.label}-input" placeholder="Enter type"
+                       value="${resultFilters.contains(ResultFilter.PHONE)?keywords[resultFilters.indexOf(ResultFilter.PHONE)]:""}">
+            </label>
+            <br>
+            <label class="filter-toggle">
+                <input class="filter-toggle-box" type="checkbox"
                        onchange="clearInput('${ResultFilter.PLACE.label}')"
                        name="${ResultFilter.PLACE.label}-check" ${resultFilters.contains(ResultFilter.PLACE)?"checked":""}>
                 <span class="filter-name">${ResultFilter.PLACE.display}</span>

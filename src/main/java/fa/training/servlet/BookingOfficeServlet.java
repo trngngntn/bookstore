@@ -17,7 +17,7 @@ public class BookingOfficeServlet extends BaseServlet<BookingOffice> {
 
     @Override
     protected ResultFilter[] getResultFilter() {
-        return new ResultFilter[]{ResultFilter.NAME, ResultFilter.TRIP, ResultFilter.PLACE};
+        return new ResultFilter[]{ResultFilter.NAME, ResultFilter.TRIP, ResultFilter.PHONE, ResultFilter.PLACE};
     }
 
     @Override

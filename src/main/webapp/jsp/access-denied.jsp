@@ -16,7 +16,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <title>Access Denied</title>
 </head>
-<body style="padding: 2rem">
-    <h1>Access Denied</h1>
+<body style="padding: 5rem; text-align: center">
+    <span class="material-icons-round" style="font-size: 3rem; margin-right: .5rem">
+        do_not_disturb
+    </span>
+    <span style="font-size: 2rem; line-height: 3rem; vertical-align: top"> Access Denied</span>
 </body>
 </html>
