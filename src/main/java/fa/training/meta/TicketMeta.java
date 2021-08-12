@@ -2,6 +2,7 @@ package fa.training.meta;
 
 import fa.training.dao.TicketDAO;
 import fa.training.entity.Ticket;
+import fa.training.utils.validator.GeneralStringValidator;
 import fa.training.utils.validator.Validator;
 
 import java.sql.Time;
@@ -10,7 +11,7 @@ import java.util.Map;
 
 public enum TicketMeta implements Meta {
     ID("id", "id", int.class, null),
-    CUSTOMER_NAME("customerName", "customer_name", String.class, null),
+    CUSTOMER_NAME("customerName", "customer_name", String.class, GeneralStringValidator.class),
     BOOKED_TIME("bookedTime", "booked_time", Time.class, null),
     TRIP_ID("tripId", "trip_id", int.class, null),
     LICENSE_PLATE("licensePlate", "license_plate", String.class, null);

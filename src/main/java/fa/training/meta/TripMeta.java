@@ -2,6 +2,8 @@ package fa.training.meta;
 
 import fa.training.dao.TripDAO;
 import fa.training.entity.Trip;
+import fa.training.utils.validator.GeneralStringValidator;
+import fa.training.utils.validator.IntegerValidator;
 import fa.training.utils.validator.Validator;
 
 import java.sql.Time;
@@ -12,12 +14,12 @@ import java.util.Map;
 public enum TripMeta implements Meta {
     ID("id", "id", int.class, null),
     BOOKED_TICKET("bookedTicket", "booked_ticket", int.class, null),
-    CAR_TYPE("carType", "car_type", String.class, null),
+    CAR_TYPE("carType", "car_type", String.class, GeneralStringValidator.class),
     DEPARTURE_TIME("departureTime", "departure_time", Time.class, null),
     DEPARTURE_DATE("departureDate", "departure_date", Date.class, null),
-    DESTINATION("destination", "destination", String.class, null),
-    DRIVER("driver", "driver", String.class, null),
-    MAX_ONL_TICKET("maxOnlTicket", "max_onl_ticket", int.class, null);
+    DESTINATION("destination", "destination", String.class, GeneralStringValidator.class),
+    DRIVER("driver", "driver", String.class, GeneralStringValidator.class),
+    MAX_ONL_TICKET("maxOnlTicket", "max_onl_ticket", int.class, IntegerValidator.class);
 
     private final String fieldName;
     private final String dbName;

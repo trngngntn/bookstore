@@ -2,6 +2,8 @@ package fa.training.meta;
 
 import fa.training.dao.ParkingLotDAO;
 import fa.training.entity.ParkingLot;
+import fa.training.utils.validator.DoubleValidator;
+import fa.training.utils.validator.GeneralStringValidator;
 import fa.training.utils.validator.Validator;
 
 import java.util.HashMap;
@@ -9,10 +11,10 @@ import java.util.Map;
 
 public enum ParkingLotMeta implements Meta {
     ID("id", "id", int.class, null),
-    NAME("name", "name", String.class, null),
+    NAME("name", "name", String.class, GeneralStringValidator.class),
     PLACE_ID("placeId", "place_id", int.class, null),
-    AREA("area", "area", double.class, null),
-    PRICE("price", "price", double.class, null),
+    AREA("area", "area", double.class, DoubleValidator.class),
+    PRICE("price", "price", double.class, DoubleValidator.class),
     STATUS("status", "status", boolean.class, null);
 
     private final String fieldName;

@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="fa.training.utils.ResultFilter" %>
-<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
     <jsp:include page="../common/common-bar-action.jsp"/>
     <div class="hidden" id="filter">
@@ -36,37 +36,42 @@
         </form>
     </div>
     <div>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Trip</th>
-                <th>Phone</th>
-                <th>Place</th>
-                <th>Price</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0"  onclick="changePage('<%= request.getContextPath()%>/bookingOffice/${item.id}')">
-                    <td>${item.id}</td>
-                    <td>${item.name}</td>
-                    <td>
-                        <c:forEach items="${tripList}" var="trip">
-                            <c:if test="${item.tripId eq trip.id}">${trip.destination}</c:if>
-                        </c:forEach>
-                    </td>
-                    <td>${item.phone}</td>
-                    <td>${item.place}</td>
-                    <td>${item.price}</td>
-                    <td></td>
+        <c:if test="${empty resultList.size()}">
+            <span class="no-match">No matches</span>
+        </c:if>
+        <c:if test="${resultList.size() > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Trip</th>
+                    <th>Phone</th>
+                    <th>Place</th>
+                    <th>Price</th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+                </thead>
+                <tbody>
+                <c:forEach items="${resultList}" var="item">
+                    <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/bookingOffice/${item.id}')">
+                        <td>${item.id}</td>
+                        <td>${item.name}</td>
+                        <td>
+                            <c:forEach items="${tripList}" var="trip">
+                                <c:if test="${item.tripId eq trip.id}">${trip.destination}</c:if>
+                            </c:forEach>
+                        </td>
+                        <td>${item.phone}</td>
+                        <td>${item.place}</td>
+                        <td>${item.price}</td>
+                        <td></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+        </c:if>
     </div>
 </div>
-<jsp:include page="../common/common-form.jsp" />
+<jsp:include page="../common/common-form.jsp"/>

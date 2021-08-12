@@ -1,6 +1,7 @@
 package fa.training.servlet;
 
 import fa.training.dao.EmployeeDAO;
+import fa.training.entity.Employee;
 import fa.training.utils.HashUtils;
 
 import javax.servlet.*;
@@ -31,9 +32,14 @@ public class LoginServlet extends HttpServlet {
                 System.out.println(savedKey + " : " + calKey);
                 if (savedKey.equals(calKey)) {
                     request.getSession().setAttribute("activeUid", uid);
+                    Employee e = employeeDAO.get(uid);
+                    request.getSession().setAttribute("empName", e.getName());
                     response.sendRedirect("car");
                 }
             } else if (request.getSession().getAttribute("activeUid") != null) {
+                EmployeeDAO employeeDAO = new EmployeeDAO();
+                Employee e = employeeDAO.get(request.getSession().getAttribute("activeUid"));
+                request.getSession().setAttribute("empName", e.getName());
                 response.sendRedirect("car");
             } else {
                 request.getRequestDispatcher("jsp/login.jsp").forward(request, response);
@@ -48,6 +54,7 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         if (username.equals("admin") && password.equals("admin")) {
             request.getSession().setAttribute("activeUid", 0);
+            request.getSession().setAttribute("empName", "Admin");
             response.sendRedirect("employee");
         } else {
             try {
@@ -62,6 +69,8 @@ public class LoginServlet extends HttpServlet {
                         String calKey = HashUtils.generateCookieKey(uid, pwdHash);
                         response.addCookie(new Cookie("saved-key", calKey));
                     }
+                    Employee e = employeeDAO.get(uid);
+                    request.getSession().setAttribute("empName", e.getName());
                     response.sendRedirect("parkingLot");
                 } else {
                     request.setAttribute("failed", true);

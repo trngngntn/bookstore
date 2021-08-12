@@ -251,7 +251,11 @@ public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
             //parse JSON from request body
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
             T obj = (T) gson.fromJson(request.getReader(), genericClass);
-            //obj.normalize();
+            if(!obj.check()){
+                response.getWriter().print("invalid");
+                return;
+            }
+            obj.normalize();
             //add to database
             BaseDAO<T> genericDAOInstance = (BaseDAO<T>) ((Class<?>) getMeta().getDeclaredMethod("getDAOClass")
                     .invoke(null)).getDeclaredConstructor().newInstance();
@@ -282,7 +286,11 @@ public abstract class BaseServlet<T extends BaseEntity<T>> extends HttpServlet {
             Object id = getId(request, keyMeta);
             T obj = (T) gson.fromJson(request.getReader(), genericClass);
             obj.set(keyMeta, id);
-            //obj.normalize();
+            if(!obj.check()){
+                response.getWriter().print("invalid");
+                return;
+            }
+            obj.normalize();
             //update to database
             BaseDAO<T> genericDAOInstance = (BaseDAO<T>) ((Class<?>) getMeta().getDeclaredMethod("getDAOClass")
                     .invoke(null)).getDeclaredConstructor().newInstance();

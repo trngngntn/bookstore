@@ -46,39 +46,44 @@
         </form>
     </div>
     <div>
-        <table>
-            <thead>
-            <tr>
-                <th>License plate</th>
-                <th>Type</th>
-                <th>Color</th>
-                <th>Company</th>
-                <th>Parking Lot</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/car/${item.licensePlate}')">
-                    <td>${item.licensePlate}</td>
-                    <td>${item.type}</td>
-                    <td>${item.color}</td>
-                    <td>
-                        <c:forEach items="${officeList}" var="office">
-                            <c:if test="${item.officeId eq office.id}">${office.name}</c:if>
-                        </c:forEach>
-                    </td>
-                    <td>
-                        <c:forEach items="${parkingLotList}" var="parkingLot">
-                            <c:if test="${item.parkingLotId eq parkingLot.id}">${parkingLot.name}</c:if>
-                        </c:forEach>
-                    </td>
-                    <td></td>
+        <c:if test="${empty resultList.size()}">
+            <span class="no-match">No matches</span>
+        </c:if>
+        <c:if test="${resultList.size() > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>License plate</th>
+                    <th>Type</th>
+                    <th>Color</th>
+                    <th>Company</th>
+                    <th>Parking Lot</th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+                </thead>
+                <tbody>
+                <c:forEach items="${resultList}" var="item">
+                    <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/car/${item.licensePlate}')">
+                        <td>${item.licensePlate}</td>
+                        <td>${item.type}</td>
+                        <td>${item.color}</td>
+                        <td>
+                            <c:forEach items="${officeList}" var="office">
+                                <c:if test="${item.officeId eq office.id}">${office.name}</c:if>
+                            </c:forEach>
+                        </td>
+                        <td>
+                            <c:forEach items="${parkingLotList}" var="parkingLot">
+                                <c:if test="${item.parkingLotId eq parkingLot.id}">${parkingLot.name}</c:if>
+                            </c:forEach>
+                        </td>
+                        <td></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+        </c:if>
     </div>
 </div>
 <jsp:include page="../common/common-form.jsp"/>

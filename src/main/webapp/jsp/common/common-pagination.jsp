@@ -9,14 +9,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="page-nav">
     <c:if test="${currentPage gt 1}">
-        <span class="align-left">
+        <span>
             <button id="first-button" class="icon-button" onclick="changePage(`?${prm}index=1`, true)">
                 <i class="material-icons-round">first_page</i>
-                <span class="button-label">First</span>
             </button>
             <button id="prev-button" class="icon-button" onclick="changePage(`?${prm}index=${currentPage - 1}`, true)">
                 <i class="material-icons-round">navigate_before</i>
-                <span class="button-label">Prev</span>
             </button>
         </span>
     </c:if>
@@ -58,14 +56,12 @@
     </span>
 
     <c:if test="${currentPage lt maxPage}">
-        <span class="align-right">
+        <span>
             <button id="next-button" class="icon-button" onclick="changePage(`?${prm}index=${currentPage + 1}`, true)">
                 <i class="material-icons-round">navigate_next</i>
-                <span class="button-label">Next</span>
             </button>
             <button id="last-button" class="icon-button" onclick="changePage(`?${prm}index=${maxPage}`, true)">
                 <i class="material-icons-round">last_page</i>
-                <span class="button-label">Last</span>
             </button>
         </span>
     </c:if>

@@ -3,6 +3,8 @@ package fa.training.entity;
 import fa.training.meta.Meta;
 import fa.training.utils.validator.Validator;
 
+import java.beans.Expression;
+
 
 public abstract class BaseEntity<T> {
     private transient Class<T> base;
@@ -40,10 +42,42 @@ public abstract class BaseEntity<T> {
         return false;
     }
 
+    public boolean check() throws Exception {
+        Meta[] values = getMeta().getEnumConstants();
+
+        for(Meta meta : values){
+
+            if(meta.getValidator() == null) continue;
+
+            Object o = new Object();
+
+            Expression expression = new Expression(o, meta.getValidator(), "new", null);
+            expression.execute();
+
+            Validator v = (Validator) expression.getValue();
+            if(v != null){
+                if(v.check(get(meta)) == false) {
+                    System.out.println(meta.getFieldName() + " is Invalid");
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public void normalize() throws Exception {
         Meta[] values = getMeta().getEnumConstants();
+
         for(Meta meta : values){
-            Validator v = meta.getValidator().getDeclaredConstructor().newInstance();
+
+            if(meta.getValidator() == null) continue;
+
+            Object o = new Object();
+
+            Expression expression = new Expression(o, meta.getValidator(), "new", null);
+            expression.execute();
+
+            Validator v = (Validator) expression.getValue();
             if(v != null){
                 set(meta, v.normalize(get(meta)));
             }

@@ -18,7 +18,7 @@ public class EmployeeServlet extends BaseServlet<Employee> {
 
     @Override
     protected ResultFilter[] getResultFilter() {
-        return new ResultFilter[]{};
+        return new ResultFilter[]{ResultFilter.NAME, ResultFilter.ADDRESS, ResultFilter.PHONE, ResultFilter.DEPARTMENT};
     }
 
     @Override

@@ -2,6 +2,7 @@ package fa.training.meta;
 
 import fa.training.dao.BookingOfficeDAO;
 import fa.training.entity.BookingOffice;
+import fa.training.utils.validator.DoubleValidator;
 import fa.training.utils.validator.GeneralStringValidator;
 import fa.training.utils.validator.Validator;
 
@@ -14,7 +15,7 @@ public enum BookingOfficeMeta implements Meta {
     NAME("name", "name", String.class, GeneralStringValidator.class),
     PHONE("phone", "phone", String.class, GeneralStringValidator.class),
     PLACE("place", "place", String.class, GeneralStringValidator.class),
-    PRICE("price", "price", double.class, null),
+    PRICE("price", "price", double.class, DoubleValidator.class),
     START_CONTRACT("startContract","start_contract", Date.class, null),
     END_CONTRACT("endContract","end_contract", Date.class, null),
     TRIP_ID("tripId", "trip_id", int.class, null);

@@ -27,8 +27,8 @@
             <br>
             <label class="filter-group">
                 <input class="filter-group-toggle" type="radio" name="date-check"
-                        onchange="clearInput('${ResultFilter.DATE.label}')"
-                        ${resultFilters.contains(ResultFilter.TO_DATE) || resultFilters.contains(ResultFilter.FROM_DATE) ?"checked":""}>
+                       onchange="clearInput('${ResultFilter.DATE.label}')"
+                ${resultFilters.contains(ResultFilter.TO_DATE) || resultFilters.contains(ResultFilter.FROM_DATE) ?"checked":""}>
                 <div class="filter-group-label">Filter by date range</div>
                 <div class="filter-group-content">
                     <label class="filter-toggle">
@@ -55,7 +55,7 @@
             <label class="filter-group">
                 <input class="filter-group-toggle" type="radio" name="date-check"
                        onchange="clearInput('${ResultFilter.FROM_DATE.label}');clearInput('${ResultFilter.TO_DATE.label}')"
-                       ${resultFilters.contains(ResultFilter.DATE)?"checked":""}>
+                ${resultFilters.contains(ResultFilter.DATE)?"checked":""}>
                 <div class="filter-group-label">Filter by exact date</div>
                 <div class="filter-group-content">
                     <label class="filter-toggle">
@@ -72,33 +72,38 @@
         </form>
     </div>
     <div>
-        <table>
-            <thead>
-            <tr>
-                <th>No</th>
-                <th>Destination</th>
-                <th>Departure</th>
-                <th>Driver</th>
-                <th>Car type</th>
-                <th>Booked ticket</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/trip/${item.id}')">
-                    <td>${item.id}</td>
-                    <td>${item.destination}</td>
-                    <td>${DateTimeUtils.formatTime(item.departureTime)} ${DateTimeUtils.formatDateUI(item.departureDate)}</td>
-                    <td>${item.driver}</td>
-                    <td>${item.carType}</td>
-                    <td>${item.bookedTicket}</td>
-                    <td></td>
+        <c:if test="${empty resultList.size()}">
+            <span class="no-match">No matches</span>
+        </c:if>
+        <c:if test="${resultList.size() > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Destination</th>
+                    <th>Departure</th>
+                    <th>Driver</th>
+                    <th>Car type</th>
+                    <th>Booked ticket</th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+                </thead>
+                <tbody>
+                <c:forEach items="${resultList}" var="item">
+                    <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/trip/${item.id}')">
+                        <td>${item.id}</td>
+                        <td>${item.destination}</td>
+                        <td>${DateTimeUtils.formatTime(item.departureTime)} ${DateTimeUtils.formatDateUI(item.departureDate)}</td>
+                        <td>${item.driver}</td>
+                        <td>${item.carType}</td>
+                        <td>${item.bookedTicket}</td>
+                        <td></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+        </c:if>
     </div>
 </div>
 <jsp:include page="../common/common-form.jsp"/>

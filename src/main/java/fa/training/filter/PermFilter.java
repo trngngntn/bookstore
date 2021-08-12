@@ -1,6 +1,7 @@
 package fa.training.filter;
 
 import fa.training.dao.EmployeeDAO;
+import fa.training.entity.Employee;
 import fa.training.servlet.LoginServlet;
 import fa.training.utils.HashUtils;
 
@@ -14,7 +15,7 @@ import java.io.IOException;
 @WebFilter(filterName = "PermFilter")
 public class PermFilter implements Filter {
     private static final String[] GUEST_PERM = {"assets", "login", "register"};
-    private static final String[] STAFF_PERM = {"assets", "login", "logout", "register", "car", "bookingOffice", "parkingLot", "ticket", "trip"};
+    private static final String[] STAFF_PERM = {"assets", "login", "logout", "register", "car", "bookingOffice", "parkingLot", "ticket", "trip", "check"};
     private static final String[] DENIED = {".jsp"};
 
     public void init(FilterConfig config) throws ServletException {
@@ -78,6 +79,8 @@ public class PermFilter implements Filter {
                         System.out.println(savedKey + " : " + calKey);
                         if (savedKey.equals(calKey)) {
                             httpRequest.getSession().setAttribute("activeUid", uid);
+                            Employee e = employeeDAO.get(uid);
+                            httpRequest.getSession().setAttribute("empName", e.getName());
                             chain.doFilter(request, response);
                         }
                     } else {

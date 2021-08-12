@@ -35,40 +35,45 @@
         </form>
     </div>
     <div>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Place</th>
-                <th>Area</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}')">
-                    <td>${item.id}</td>
-                    <td>${item.name}</td>
-                    <td>
-                        <c:forEach items="${placeList}" var="place">
-                            <c:if test="${item.placeId eq place.id}">${place.name}</c:if>
-                        </c:forEach>
-                    </td>
-                    <td>${item.area}</td>
-                    <td>${item.price}</td>
-                    <td>
-                        <c:if test="${item.status eq true}">Occupied</c:if>
-                        <c:if test="${item.status eq false}">Blank</c:if>
-                    </td>
-                    <td></td>
+        <c:if test="${empty resultList.size()}">
+            <span class="no-match">No matches</span>
+        </c:if>
+        <c:if test="${resultList.size() > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Place</th>
+                    <th>Area</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+                </thead>
+                <tbody>
+                <c:forEach items="${resultList}" var="item">
+                    <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/parkingLot/${item.id}')">
+                        <td>${item.id}</td>
+                        <td>${item.name}</td>
+                        <td>
+                            <c:forEach items="${placeList}" var="place">
+                                <c:if test="${item.placeId eq place.id}">${place.name}</c:if>
+                            </c:forEach>
+                        </td>
+                        <td>${item.area}</td>
+                        <td>${item.price}</td>
+                        <td>
+                            <c:if test="${item.status eq true}">Occupied</c:if>
+                            <c:if test="${item.status eq false}">Blank</c:if>
+                        </td>
+                        <td></td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <jsp:include page="../common/common-pagination.jsp"></jsp:include>
+        </c:if>
     </div>
 </div>
 <jsp:include page="../common/common-form.jsp"/>

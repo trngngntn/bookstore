@@ -7,6 +7,7 @@ public enum ResultFilter {
     NAME("name", null, "`name` LIKE CONCAT('%',?,'%')"),
     LICENSE_PLATE("licensePlate", "License plate", "`license_plate` LIKE CONCAT('%',?,'%')"),
     ADDRESS("address", "Address", "`address` LIKE CONCAT('%',?,'%')"),
+    PHONE("phone", "Phone", "`phone` LIKE CONCAT('%',?,'%')"),
     DESTINATION("destination", "Destination", "`destination` LIKE CONCAT('%',?,'%')"),
     DRIVER("driver", "Driver", "`driver` LIKE CONCAT('%',?,'%')"),
     TYPE("type", "Type", "`type` LIKE CONCAT('%',?,'%')"),
@@ -19,6 +20,7 @@ public enum ResultFilter {
     TO_DATE("toDate", "To date", "`departure_date` <= ?"),
 
 
+    DEPARTMENT("department", "Department", "`department_id` = ?"),
     OFFICE("office", "Office name", "`office_id` IN (SELECT `id` FROM `Office` WHERE `name` LIKE CONCAT('%',?,'%'))"),
     TRIP("trip", "Trip", "`trip_id` IN (SELECT `id` FROM `Trip` WHERE `destination` LIKE CONCAT('%',?,'%'))"),
     STATUS("status", "Status", "`status` = ?"),

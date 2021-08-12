@@ -6,6 +6,6 @@ public class LicensePlateValidator extends NonSpaceStringValidator{
     @Override
     public boolean check(String o) throws Exception {
         CarDAO carDAO = new CarDAO();
-        return carDAO.licensePlateExists(normalize(o));
+        return !carDAO.licensePlateExists(normalize(o));
     }
 }

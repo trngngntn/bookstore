@@ -21,7 +21,7 @@
                        name="${ResultFilter.TRIP.label}-check" ${resultFilters.contains(ResultFilter.TRIP)?"checked":""}>
                 <span class="filter-name">${ResultFilter.TRIP.display}</span>
                 <input class="filter-value" type="text" name="${ResultFilter.TRIP.label}"
-                       id="${ResultFilter.TRIP.label}-input" placeholder="Enter driver name"
+                       id="${ResultFilter.TRIP.label}-input" placeholder="Enter trip"
                        value="${resultFilters.contains(ResultFilter.TRIP)?keywords[resultFilters.indexOf(ResultFilter.TRIP)]:""}">
             </label>
             <br>
@@ -31,7 +31,7 @@
                        name="${ResultFilter.LICENSE_PLATE.label}-check" ${resultFilters.contains(ResultFilter.LICENSE_PLATE)?"checked":""}>
                 <span class="filter-name">${ResultFilter.LICENSE_PLATE.display}</span>
                 <input class="filter-value" type="text" name="${ResultFilter.LICENSE_PLATE.label}"
-                       id="${ResultFilter.LICENSE_PLATE.label}-input" placeholder="Enter place"
+                       id="${ResultFilter.LICENSE_PLATE.label}-input" placeholder="Enter license plate"
                        value="${resultFilters.contains(ResultFilter.LICENSE_PLATE)?keywords[resultFilters.indexOf(ResultFilter.LICENSE_PLATE)]:""}">
             </label>
             <br>
@@ -41,48 +41,51 @@
                        name="${ResultFilter.CUSTOMER.label}-check" ${resultFilters.contains(ResultFilter.CUSTOMER)?"checked":""}>
                 <span class="filter-name">${ResultFilter.CUSTOMER.display}</span>
                 <input class="filter-value" type="text" name="${ResultFilter.CUSTOMER.label}"
-                       id="${ResultFilter.CUSTOMER.label}-input" placeholder="Enter place"
+                       id="${ResultFilter.CUSTOMER.label}-input" placeholder="Enter customer"
                        value="${resultFilters.contains(ResultFilter.CUSTOMER)?keywords[resultFilters.indexOf(ResultFilter.CUSTOMER)]:""}">
             </label>
             <br>
         </form>
     </div>
     <div>
-        <table>
-            <thead>
-            <tr>
-                <th>No</th>
-                <th>Trip</th>
-                <th>License plate</th>
-                <th>Customer</th>
-                <th>Booked time</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <c:forEach items="${resultList}" var="item">
-                <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/ticket/${item.id}')">
-                    <td>${item.id}</td>
-                    <td>
-                        <c:forEach items="${tripList}" var="trip">
-                            <c:if test="${item.tripId eq trip.id}">${trip.destination}</c:if>
-                        </c:forEach>
-                    </td>
-                    <td>${item.licensePlate}</td>
-                    <td>${item.customerName}</td>
-                    <td>${DateTimeUtils.formatTime(item.bookedTime)}</td>
-                    <td class="clickable" style="width: 2rem" onclick="doDelete(${item.id});">
+        <c:if test="${empty resultList.size()}">
+            <span class="no-match">No matches</span>
+        </c:if>
+        <c:if test="${resultList.size() > 0}">
+            <table>
+                <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Trip</th>
+                    <th>License plate</th>
+                    <th>Customer</th>
+                    <th>Booked time</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${resultList}" var="item">
+                    <tr tabindex="0" onclick="changePage('<%= request.getContextPath()%>/ticket/${item.id}')">
+                        <td>${item.id}</td>
+                        <td>
+                            <c:forEach items="${tripList}" var="trip">
+                                <c:if test="${item.tripId eq trip.id}">${trip.destination}</c:if>
+                            </c:forEach>
+                        </td>
+                        <td>${item.licensePlate}</td>
+                        <td>${item.customerName}</td>
+                        <td>${DateTimeUtils.formatTime(item.bookedTime)}</td>
+                        <td class="clickable" style="width: 2rem" onclick="doDelete(${item.id});">
                         <span class="material-icons-round">
                         delete
                         </span>
-                    </td>
-                </tr>
-            </c:forEach>
-            </tbody>
-        </table>
-        <jsp:include page="../common/common-pagination.jsp"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            <jsp:include page="../common/common-pagination.jsp"/>
+        </c:if>
     </div>
 </div>
 <jsp:include page="../common/common-form.jsp"/>
-<c:set scope="request" var="alertMessage" value="Are you sure to delete this ticket?"/>
-<c:set scope="request" var="function" value="submitDelete()"/>
