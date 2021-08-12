@@ -17,7 +17,7 @@ public class ParkingLotServlet extends BaseServlet<ParkingLot> {
 
     @Override
     protected ResultFilter[] getResultFilter() {
-        return new ResultFilter[]{ResultFilter.NAME, ResultFilter.STATUS};
+        return new ResultFilter[]{ResultFilter.NAME, ResultFilter.PARK_PLACE, ResultFilter.STATUS};
     }
 
     @Override

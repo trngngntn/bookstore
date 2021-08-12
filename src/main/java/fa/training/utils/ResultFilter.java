@@ -20,6 +20,7 @@ public enum ResultFilter {
     TO_DATE("toDate", "To date", "`departure_date` <= ?"),
 
 
+    PARK_PLACE("parkPlace", "Place", "`place_id` = ?"),
     DEPARTMENT("department", "Department", "`department_id` = ?"),
     OFFICE("office", "Office name", "`office_id` IN (SELECT `id` FROM `Office` WHERE `name` LIKE CONCAT('%',?,'%'))"),
     TRIP("trip", "Trip", "`trip_id` IN (SELECT `id` FROM `Trip` WHERE `destination` LIKE CONCAT('%',?,'%'))"),

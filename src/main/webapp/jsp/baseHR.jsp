@@ -21,6 +21,7 @@
 <main id="main">
     <jsp:include page="${page}"/>
 </main>
+<jsp:include page="common/common-dialog.jsp"/>
 <div id="status-bar">
     <div id="added-status" class="status-message success hidden">
         <span class="material-icons-round success">check_circle</span>

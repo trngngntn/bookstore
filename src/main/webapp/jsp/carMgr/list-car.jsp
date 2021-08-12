@@ -9,6 +9,7 @@
 <%@ page import="fa.training.utils.ResultFilter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
+    <c:set scope="request" var="placeholder" value="Search by license plate"/>
     <jsp:include page="../common/common-bar-action.jsp"/>
     <div class="hidden" id="filter">
         <form id="filter-form">

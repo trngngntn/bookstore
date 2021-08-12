@@ -14,7 +14,7 @@
         <span class="button-label">Add</span>
     </button>
     <div class="inline-block">
-        <input id="search-area" type="text" placeholder="Search" name="${filters[0].label}" value="${keyword}">
+        <input id="search-area" type="text" placeholder="${placeholder}" name="${filters[0].label}" value="${keyword}">
         <button id="search-button" class="icon-button" onclick="querySearch()">
             <i class="material-icons-round">search</i>
             <span class="button-label">Search</span>

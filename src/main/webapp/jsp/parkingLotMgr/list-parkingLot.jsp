@@ -9,6 +9,7 @@
 <%@ page import="fa.training.utils.ResultFilter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div id="list-view" class="view">
+    <c:set scope="request" var="placeholder" value="Search by name"/>
     <jsp:include page="../common/common-bar-action.jsp"/>
     <div class="hidden" id="filter">
         <form id="filter-form">
@@ -30,6 +31,23 @@
                     ${resultFilters.contains(ResultFilter.STATUS) && keywords[resultFilters.indexOf(ResultFilter.STATUS)].equals("0")?"selected":""}>
                         Blank
                     </option>
+                </select>
+            </label>
+            <br>
+            <label class="filter-toggle">
+                <input class="filter-toggle-box" type="checkbox"
+                       onchange="clearInput('${ResultFilter.PARK_PLACE.label}')"
+                       name="${ResultFilter.PARK_PLACE.label}-check" ${resultFilters.contains(ResultFilter.PARK_PLACE)?"checked":""}>
+                <span class="filter-name">${ResultFilter.PARK_PLACE.display}</span>
+                <select id="${ResultFilter.PARK_PLACE.label}-input" name="${ResultFilter.PARK_PLACE.label}"
+                        class="filter-value">
+                    <option disabled selected></option>
+                    <c:forEach items="${placeList}" var="place">
+                        <option value="${place.id}"
+                            ${resultFilters.contains(ResultFilter.PARK_PLACE) && keywords[resultFilters.indexOf(ResultFilter.PARK_PLACE)].equals(String.format("%d", place.id))?"selected":""}>
+                            ${place.name}
+                        </option>
+                    </c:forEach>
                 </select>
             </label>
         </form>
